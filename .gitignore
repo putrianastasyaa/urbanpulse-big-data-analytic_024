@@ -22,9 +22,11 @@ ml/models/*
 !ml/models/.gitkeep
 !ml/models/training_run_metadata_024.json
 
-# Dokumen referensi eksternal & deliverable biner/backup lokal
+# Dokumen referensi eksternal, gambar laporan, & deliverable biner/backup lokal
 references/*.pdf
 !references/.gitkeep
+reports/figures/*.png
+!reports/figures/.gitkeep
 reports/final_024/
 docs/backup_progress_*/
 

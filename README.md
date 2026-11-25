@@ -70,12 +70,6 @@ Aplikasi dashboard (`UrbanPulseDashboard_024`) menyediakan **5 halaman utama** i
 4. **Prediksi Permintaan (`dashboard/pages/demand_prediction_024.py`):** Evaluasi *out-of-sample* model Ridge Regression pada *Locked Test Holdout* (`24–30 Sep 2026`), toggle metrik `All 261 Zones` vs `Top 50 Operational Zones`, kurva Aktual vs Prediksi + interval estimasi + Baseline Naive (`lag_168h`).
 5. **Rekomendasi Armada (`dashboard/pages/recommendations_024.py`):** Rekomendasi alokasi armada berbasis bukti aktual Gold Layer & evaluasi error per zona (diturunkan dinamis oleh `build_evidence_recommendations_024()`).
 
-### Pratinjau Antarmuka Dashboard
-
-![Ringkasan Utama UrbanPulse](reports/figures/dashboard_01_overview_024.png)
-
-> Tangkapan layar halaman lain (`dashboard_02`–`05`) serta bukti alur Apache NiFi (`nifi_01`–`04`) tersedia di direktori [`reports/figures/`](reports/figures/).
-
 ---
 
 ## Teknologi yang Digunakan
@@ -143,7 +137,7 @@ urbanpulse-big-data-analytic_024/
 │   └── analytics/                             # Serving Layer Gold & prediksi ML (Parquet dikecualikan dari Git)
 ├── reports/
 │   ├── *_024.md & *_024.json                  # Laporan & ringkasan audit Raw, Silver, Gold, & Evaluasi ML
-│   └── figures/                               # Tangkapan layar autentik dashboard & Apache NiFi
+│   └── figures/                               # Direktori figure laporan (file PNG dikecualikan dari Git)
 └── docs/
     ├── technical_documentation_024.md         # Dokumentasi teknis arsitektur & runtime end-to-end
     ├── methodology_024.md                     # Metodologi pembersihan data, fitur ML, & evaluasi
@@ -266,5 +260,5 @@ Demi menjaga keamanan dan ukuran repositori tetap ringan, aset berikut **sengaja
 - Dataset mentah Parquet (`data/raw/*.parquet`, ~64,3 MiB) dan data hasil pemrosesan Parquet (`data/processed/`, `data/analytics/`).
 - Artefak biner model Spark MLlib (`ml/models/ridge_reg_0p1_024/`) beserta file checksum `*.crc`.
 - Virtual environment Python (`.venv/`), cache (`__pycache__/`), serta file sementara/log (`*.log`, `*.tmp`, `~$*`).
-- Dokumen referensi eksternal (`references/*.pdf`), backup dokumentasi lama (`docs/backup_progress_*/`), dan berkas deliverable Office biner (`reports/final_024/`).
+- Dokumen referensi eksternal (`references/*.pdf`), gambar laporan (`reports/figures/*.png`), backup dokumentasi lama (`docs/backup_progress_*/`), dan berkas deliverable Office biner (`reports/final_024/`).
 - Seluruh file rahasia/kredensial (`.env`, `.streamlit/secrets.toml`, `*.pem`, `*.key`).
