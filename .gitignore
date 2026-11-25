@@ -1,0 +1,78 @@
+# =============================================================================
+# UrbanPulse — Intelligent Urban Taxi Analytics (.gitignore)
+# =============================================================================
+
+# Dataset mentah dan hasil pemrosesan besar (Parquet / HDFS mirror)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Data referensi lokal (pertahankan taxi_zone_lookup_024.csv yang ringan; abaikan GeoJSON/SHP besar)
+data/reference/*
+!data/reference/.gitkeep
+!data/reference/taxi_zone_lookup_024.csv
+
+# Output serving analytics Parquet hasil pemrosesan PySpark & MLlib
+data/analytics/*
+!data/analytics/.gitkeep
+
+# Artefak model Spark MLlib terlatih (biner/Parquet/CRC); pertahankan metadata JSON ringan
+ml/models/*
+!ml/models/.gitkeep
+!ml/models/training_run_metadata_024.json
+
+# Dokumen referensi eksternal & deliverable biner/backup lokal
+references/*.pdf
+!references/.gitkeep
+reports/final_024/
+docs/backup_progress_*/
+
+# Python virtual environments & cache
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Apache Spark, Hadoop, & NiFi runtime artifacts, logs, dan checksum
+spark-warehouse/
+metastore_db/
+derby.log
+*.log
+*.crc
+logs/
+tmp/
+temp/
+*.tmp
+
+# Microsoft Office temporary & lock files
+~$*
+
+# Environment variables, secrets, & kredensial lokal
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+secrets.toml
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.truststore
+*credentials*
+*secret*
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo

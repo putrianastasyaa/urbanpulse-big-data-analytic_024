@@ -1,0 +1,1165 @@
+{
+  "metadata_024": {
+    "project_024": "UrbanPulse — Intelligent Urban Taxi Analytics",
+    "script_024": "ml/evaluation/evaluate_demand_model_024.py",
+    "selected_model_id_024": "ridge_reg_0p1_024",
+    "selected_model_family_024": "Ridge Regression (LinearRegression)",
+    "selected_model_params_024": {
+      "regParam": 0.1,
+      "elasticNetParam": 0.0,
+      "maxIter": 100
+    },
+    "saved_model_path_024": "ml/models/ridge_reg_0p1_024",
+    "predictions_parquet_path_024": "data/analytics/demand_predictions_024.parquet",
+    "reproducibility_verified_024": true,
+    "lookup_match_rate_pct_024": 100.0,
+    "evaluated_at_utc_024": "2026-11-25T01:51:54.669563+00:00",
+    "elapsed_seconds_024": 31.99
+  },
+  "feature_specification_024": {
+    "target_column_024": "pickup_count_024",
+    "numeric_features_024": [
+      "lag_1h_pickup_count_024",
+      "lag_24h_pickup_count_024",
+      "lag_168h_pickup_count_024",
+      "rolling_avg_24h_pickup_count_024",
+      "rolling_avg_7d_pickup_count_024",
+      "rolling_std_7d_pickup_count_024",
+      "pickup_hour_024",
+      "day_of_week_024",
+      "is_weekend_num_024",
+      "is_rush_hour_num_024",
+      "hour_sin_024",
+      "hour_cos_024",
+      "dow_sin_024",
+      "dow_cos_024",
+      "is_known_pickup_zone_num_024"
+    ],
+    "categorical_zone_encoding_024": "PULocationID cast to string -> StringIndexer(handleInvalid='keep') -> OneHotEncoder(dropLast=True) inside Spark MLlib Pipeline (fit strictly on training split)",
+    "excluded_columns_024": [
+      "PULocationID",
+      "day_name_024",
+      "day_type_024",
+      "is_ml_ready_full_history_024",
+      "is_observed_in_silver_024",
+      "non_reversed_pickup_count_024",
+      "period_024",
+      "pickup_count_024",
+      "pickup_date_024",
+      "pickup_ts_hour_024",
+      "time_of_day_bucket_024"
+    ],
+    "post_processing_024": "predicted_demand_024 = max(0.0, raw_prediction_024)",
+    "uncertainty_band_note_024": "+/- 1.28 * Validation RMSE (12.0061) = +/- 15.3678 (derived strictly from Validation, zero test leakage)"
+  },
+  "chronological_split_policy_024": {
+    "warmup_excluded_024": "2026-09-01 .. 2026-09-07 (7 days, 43,848 rows)",
+    "train_selection_024": "2026-09-08 .. 2026-09-20 (13 days, 81,432 rows)",
+    "validation_024": "2026-09-21 .. 2026-09-23 (3 days, 18,792 rows)",
+    "final_refit_train_024": "2026-09-08 .. 2026-09-23 (16 days, 100,224 rows)",
+    "test_holdout_024": "2026-09-24 .. 2026-09-30 (7 days, 43,848 rows)"
+  },
+  "selected_model_interpretability_024": {
+    "type_024": "linear_standardized_coefficients",
+    "intercept_024": 3.189081,
+    "total_feature_dim_024": 276,
+    "numeric_coefficients_024": [
+      {
+        "feature_024": "lag_1h_pickup_count_024",
+        "standardized_coef_024": 28.878279
+      },
+      {
+        "feature_024": "lag_168h_pickup_count_024",
+        "standardized_coef_024": 20.214167
+      },
+      {
+        "feature_024": "lag_24h_pickup_count_024",
+        "standardized_coef_024": 10.390766
+      },
+      {
+        "feature_024": "rolling_std_7d_pickup_count_024",
+        "standardized_coef_024": -8.300487
+      },
+      {
+        "feature_024": "rolling_avg_7d_pickup_count_024",
+        "standardized_coef_024": -8.139432
+      },
+      {
+        "feature_024": "rolling_avg_24h_pickup_count_024",
+        "standardized_coef_024": 1.095704
+      },
+      {
+        "feature_024": "is_weekend_num_024",
+        "standardized_coef_024": 0.962046
+      },
+      {
+        "feature_024": "hour_sin_024",
+        "standardized_coef_024": 0.908363
+      },
+      {
+        "feature_024": "day_of_week_024",
+        "standardized_coef_024": -0.859378
+      },
+      {
+        "feature_024": "pickup_hour_024",
+        "standardized_coef_024": 0.847819
+      },
+      {
+        "feature_024": "is_rush_hour_num_024",
+        "standardized_coef_024": 0.801782
+      },
+      {
+        "feature_024": "dow_cos_024",
+        "standardized_coef_024": -0.726913
+      },
+      {
+        "feature_024": "hour_cos_024",
+        "standardized_coef_024": -0.710306
+      },
+      {
+        "feature_024": "is_known_pickup_zone_num_024",
+        "standardized_coef_024": 0.252157
+      },
+      {
+        "feature_024": "dow_sin_024",
+        "standardized_coef_024": -0.129631
+      }
+    ]
+  },
+  "validation_model_comparison_024": [
+    {
+      "model_id_024": "naive_lag_168h_024",
+      "model_family_024": "Seasonal Naive Persistence Baseline",
+      "params_024": {
+        "lag_hours": 168
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 0.0,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 5.0031,
+          "rmse_024": 17.8666,
+          "r2_024": 0.88846,
+          "wape_pct_024": 26.6793
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 21.2731,
+          "rmse_024": 40.4432,
+          "r2_024": 0.807399,
+          "wape_pct_024": 23.5059
+        }
+      }
+    },
+    {
+      "model_id_024": "ridge_reg_0p1_024",
+      "model_family_024": "Ridge Regression (LinearRegression)",
+      "params_024": {
+        "regParam": 0.1,
+        "elasticNetParam": 0.0,
+        "maxIter": 100
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 6.04,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.3635,
+          "rmse_024": 12.0061,
+          "r2_024": 0.949633,
+          "wape_pct_024": 23.2685
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 16.6637,
+          "rmse_024": 26.9129,
+          "r2_024": 0.914712,
+          "wape_pct_024": 18.4127
+        }
+      }
+    },
+    {
+      "model_id_024": "ridge_reg_1p0_024",
+      "model_family_024": "Ridge Regression (LinearRegression)",
+      "params_024": {
+        "regParam": 1.0,
+        "elasticNetParam": 0.0,
+        "maxIter": 100
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 4.05,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.4459,
+          "rmse_024": 12.0681,
+          "r2_024": 0.949111,
+          "wape_pct_024": 23.7079
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 16.8911,
+          "rmse_024": 27.0509,
+          "r2_024": 0.913835,
+          "wape_pct_024": 18.664
+        }
+      }
+    },
+    {
+      "model_id_024": "random_forest_d8_t40_024",
+      "model_family_024": "Random Forest Regressor",
+      "params_024": {
+        "numTrees": 40,
+        "maxDepth": 8,
+        "minInstancesPerNode": 5,
+        "featureSubsetStrategy": "onethird",
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 14.02,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.363,
+          "rmse_024": 12.944,
+          "r2_024": 0.941456,
+          "wape_pct_024": 23.2659
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 18.3432,
+          "rmse_024": 29.2612,
+          "r2_024": 0.899179,
+          "wape_pct_024": 20.2686
+        }
+      }
+    },
+    {
+      "model_id_024": "random_forest_d10_t60_024",
+      "model_family_024": "Random Forest Regressor",
+      "params_024": {
+        "numTrees": 60,
+        "maxDepth": 10,
+        "minInstancesPerNode": 5,
+        "featureSubsetStrategy": "onethird",
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 27.79,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.262,
+          "rmse_024": 12.7024,
+          "r2_024": 0.943621,
+          "wape_pct_024": 22.7273
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 18.0248,
+          "rmse_024": 28.7192,
+          "r2_024": 0.902879,
+          "wape_pct_024": 19.9167
+        }
+      }
+    },
+    {
+      "model_id_024": "gbt_d5_i40_024",
+      "model_family_024": "Gradient-Boosted Tree Regressor",
+      "params_024": {
+        "maxIter": 40,
+        "maxDepth": 5,
+        "stepSize": 0.1,
+        "subsamplingRate": 0.8,
+        "minInstancesPerNode": 5,
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 28.1,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.7809,
+          "rmse_024": 14.469,
+          "r2_024": 0.926849,
+          "wape_pct_024": 25.4943
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 19.793,
+          "rmse_024": 32.6362,
+          "r2_024": 0.87458,
+          "wape_pct_024": 21.8706
+        }
+      }
+    },
+    {
+      "model_id_024": "gbt_d6_i60_024",
+      "model_family_024": "Gradient-Boosted Tree Regressor",
+      "params_024": {
+        "maxIter": 60,
+        "maxDepth": 6,
+        "stepSize": 0.08,
+        "subsamplingRate": 0.8,
+        "minInstancesPerNode": 5,
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 32.85,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.5398,
+          "rmse_024": 13.9893,
+          "r2_024": 0.931619,
+          "wape_pct_024": 24.2089
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 19.0335,
+          "rmse_024": 31.5815,
+          "r2_024": 0.882555,
+          "wape_pct_024": 21.0313
+        }
+      }
+    }
+  ],
+  "final_test_evaluation_sep24_30_024": {
+    "all_261_zones_model_024": {
+      "row_count_024": 43848,
+      "sum_actual_pickups_024": 933894,
+      "mae_024": 4.5495,
+      "rmse_024": 12.2597,
+      "r2_024": 0.956415,
+      "wape_pct_024": 21.3607,
+      "mean_bias_pred_minus_actual_024": 0.9393
+    },
+    "all_261_zones_naive_lag168h_024": {
+      "row_count_024": 43848,
+      "sum_actual_pickups_024": 933894,
+      "mae_024": 4.8796,
+      "rmse_024": 15.1874,
+      "r2_024": 0.933112,
+      "wape_pct_024": 22.9106,
+      "mean_bias_pred_minus_actual_024": 0.196
+    },
+    "all_261_improvement_vs_naive_024": {
+      "mae_improvement_pct_024": 6.76,
+      "rmse_improvement_pct_024": 19.28,
+      "wape_improvement_pp_024": 1.5499,
+      "beats_naive_baseline_024": true
+    },
+    "top_50_zones_model_024": {
+      "row_count_024": 8400,
+      "sum_actual_pickups_024": 849645,
+      "mae_024": 17.4498,
+      "rmse_024": 27.4563,
+      "r2_024": 0.924377,
+      "wape_pct_024": 17.2517,
+      "mean_bias_pred_minus_actual_024": 3.0866
+    },
+    "top_50_zones_naive_lag168h_024": {
+      "row_count_024": 8400,
+      "sum_actual_pickups_024": 849645,
+      "mae_024": 19.7748,
+      "rmse_024": 34.1088,
+      "r2_024": 0.883291,
+      "wape_pct_024": 19.5503,
+      "mean_bias_pred_minus_actual_024": 0.8257
+    },
+    "top_50_improvement_vs_naive_024": {
+      "mae_improvement_pct_024": 11.76,
+      "rmse_improvement_pct_024": 19.5,
+      "wape_improvement_pp_024": 2.2986
+    },
+    "remaining_211_zones_model_024": {
+      "row_count_024": 35448,
+      "sum_actual_pickups_024": 84249,
+      "mae_024": 1.4925,
+      "rmse_024": 2.6979,
+      "r2_024": 0.788744,
+      "wape_pct_024": 62.7989,
+      "mean_bias_pred_minus_actual_024": 0.4305
+    },
+    "remaining_211_zones_naive_lag168h_024": {
+      "row_count_024": 35448,
+      "sum_actual_pickups_024": 84249,
+      "mae_024": 1.3499,
+      "rmse_024": 3.1027,
+      "r2_024": 0.72059,
+      "wape_pct_024": 56.7995,
+      "mean_bias_pred_minus_actual_024": 0.0467
+    },
+    "zones_beating_naive_rmse_count_024": 105,
+    "top50_beating_naive_rmse_count_024": 45
+  },
+  "error_distribution_024": {
+    "abs_error_p50_median_024": 1.1095,
+    "abs_error_p75_024": 3.2299,
+    "abs_error_p90_024": 11.1317,
+    "abs_error_p95_024": 22.4386,
+    "abs_error_p99_024": 54.9395,
+    "abs_error_max_024": 313.0455,
+    "residual_p05_024": -8.5708,
+    "residual_p25_024": -0.5,
+    "residual_p50_median_024": 0.1284,
+    "residual_p75_024": 1.7403,
+    "residual_p95_024": 13.8885,
+    "pct_within_5_trips_024": 81.91,
+    "pct_within_10_trips_024": 89.09,
+    "pct_within_20_trips_024": 94.31
+  },
+  "segmented_evaluation_024": {
+    "by_demand_tier_024": [
+      {
+        "demand_tier_024": "High (11-50)",
+        "row_count_024": 6720,
+        "sum_actual_pickups_024": 537366,
+        "model_mae_024": 14.0145,
+        "model_rmse_024": 20.3372,
+        "model_r2_024": 0.920365,
+        "model_wape_pct_024": 17.5257,
+        "naive_mae_024": 15.9705,
+        "naive_rmse_024": 24.7119,
+        "rmse_improvement_pct_024": 17.7
+      },
+      {
+        "demand_tier_024": "Top 10",
+        "row_count_024": 1680,
+        "sum_actual_pickups_024": 312279,
+        "model_mae_024": 31.1913,
+        "model_rmse_024": 45.9873,
+        "model_r2_024": 0.894748,
+        "model_wape_pct_024": 16.7803,
+        "naive_mae_024": 34.9917,
+        "naive_rmse_024": 58.0891,
+        "rmse_improvement_pct_024": 20.83
+      },
+      {
+        "demand_tier_024": "Medium (51-150)",
+        "row_count_024": 16800,
+        "sum_actual_pickups_024": 79320,
+        "model_mae_024": 2.3045,
+        "model_rmse_024": 3.7047,
+        "model_r2_024": 0.777576,
+        "model_wape_pct_024": 48.8087,
+        "naive_mae_024": 2.4615,
+        "naive_rmse_024": 4.431,
+        "rmse_improvement_pct_024": 16.39
+      },
+      {
+        "demand_tier_024": "Low (>150)",
+        "row_count_024": 18648,
+        "sum_actual_pickups_024": 4929,
+        "model_mae_024": 0.7611,
+        "model_rmse_024": 1.2128,
+        "model_r2_024": -2.022897,
+        "model_wape_pct_024": 287.9359,
+        "naive_mae_024": 0.3486,
+        "naive_rmse_024": 0.7818,
+        "rmse_improvement_pct_024": -55.13
+      }
+    ],
+    "by_borough_024": [
+      {
+        "Borough": "Manhattan",
+        "row_count_024": 11256,
+        "sum_actual_pickups_024": 822304,
+        "model_mae_024": 12.9071,
+        "model_rmse_024": 22.6042,
+        "model_r2_024": 0.940186,
+        "model_wape_pct_024": 17.6677,
+        "naive_mae_024": 14.6678,
+        "naive_rmse_024": 28.3062,
+        "rmse_improvement_pct_024": 20.14
+      },
+      {
+        "Borough": "Queens",
+        "row_count_024": 11592,
+        "sum_actual_pickups_024": 75681,
+        "model_mae_024": 2.281,
+        "model_rmse_024": 7.8769,
+        "model_r2_024": 0.948081,
+        "model_wape_pct_024": 34.9382,
+        "naive_mae_024": 2.1532,
+        "naive_rmse_024": 9.044,
+        "rmse_improvement_pct_024": 12.91
+      },
+      {
+        "Borough": "Brooklyn",
+        "row_count_024": 10248,
+        "sum_actual_pickups_024": 29229,
+        "model_mae_024": 1.7406,
+        "model_rmse_024": 3.03,
+        "model_r2_024": 0.76982,
+        "model_wape_pct_024": 61.0277,
+        "naive_mae_024": 1.7012,
+        "naive_rmse_024": 3.4894,
+        "rmse_improvement_pct_024": 13.17
+      },
+      {
+        "Borough": "Bronx",
+        "row_count_024": 7224,
+        "sum_actual_pickups_024": 5213,
+        "model_mae_024": 1.0053,
+        "model_rmse_024": 1.6637,
+        "model_r2_024": -0.022206,
+        "model_wape_pct_024": 139.3085,
+        "naive_mae_024": 0.742,
+        "naive_rmse_024": 1.5961,
+        "rmse_improvement_pct_024": -4.23
+      },
+      {
+        "Borough": "Unknown",
+        "row_count_024": 168,
+        "sum_actual_pickups_024": 859,
+        "model_mae_024": 2.193,
+        "model_rmse_024": 2.8524,
+        "model_r2_024": 0.39001,
+        "model_wape_pct_024": 42.8907,
+        "naive_mae_024": 2.7083,
+        "naive_rmse_024": 3.6146,
+        "rmse_improvement_pct_024": 21.09
+      },
+      {
+        "Borough": "N/A",
+        "row_count_024": 168,
+        "sum_actual_pickups_024": 387,
+        "model_mae_024": 1.8421,
+        "model_rmse_024": 2.3799,
+        "model_r2_024": -0.002158,
+        "model_wape_pct_024": 79.9666,
+        "naive_mae_024": 1.9524,
+        "naive_rmse_024": 2.5935,
+        "rmse_improvement_pct_024": 8.23
+      },
+      {
+        "Borough": "EWR",
+        "row_count_024": 168,
+        "sum_actual_pickups_024": 114,
+        "model_mae_024": 0.8971,
+        "model_rmse_024": 1.36,
+        "model_r2_024": -0.934447,
+        "model_wape_pct_024": 132.2077,
+        "naive_mae_024": 0.75,
+        "naive_rmse_024": 1.1852,
+        "rmse_improvement_pct_024": -14.75
+      },
+      {
+        "Borough": "Staten Island",
+        "row_count_024": 3024,
+        "sum_actual_pickups_024": 107,
+        "model_mae_024": 0.6063,
+        "model_rmse_024": 1.024,
+        "model_r2_024": -24.733972,
+        "model_wape_pct_024": 1713.6082,
+        "naive_mae_024": 0.0651,
+        "naive_rmse_024": 0.2716,
+        "rmse_improvement_pct_024": -277.08
+      }
+    ],
+    "by_service_zone_024": [
+      {
+        "service_zone": "Yellow Zone",
+        "row_count_024": 8904,
+        "sum_actual_pickups_024": 789437,
+        "model_mae_024": 15.1917,
+        "model_rmse_024": 25.1539,
+        "model_r2_024": 0.933684,
+        "model_wape_pct_024": 17.1346,
+        "naive_mae_024": 17.2639,
+        "naive_rmse_024": 31.4393,
+        "rmse_improvement_pct_024": 19.99
+      },
+      {
+        "service_zone": "Boro Zone",
+        "row_count_024": 34104,
+        "sum_actual_pickups_024": 86804,
+        "model_mae_024": 1.5363,
+        "model_rmse_024": 2.9475,
+        "model_r2_024": 0.833988,
+        "model_wape_pct_024": 60.3584,
+        "naive_mae_024": 1.3872,
+        "naive_rmse_024": 3.5759,
+        "rmse_improvement_pct_024": 17.57
+      },
+      {
+        "service_zone": "Airports",
+        "row_count_024": 336,
+        "sum_actual_pickups_024": 56293,
+        "model_mae_024": 32.7289,
+        "model_rmse_024": 44.2437,
+        "model_r2_024": 0.860246,
+        "model_wape_pct_024": 19.5351,
+        "naive_mae_024": 35.7917,
+        "naive_rmse_024": 50.9804,
+        "rmse_improvement_pct_024": 13.21
+      },
+      {
+        "service_zone": "N/A",
+        "row_count_024": 336,
+        "sum_actual_pickups_024": 1246,
+        "model_mae_024": 2.0176,
+        "model_rmse_024": 2.6268,
+        "model_r2_024": 0.398335,
+        "model_wape_pct_024": 54.4063,
+        "naive_mae_024": 2.3304,
+        "naive_rmse_024": 3.1458,
+        "rmse_improvement_pct_024": 16.5
+      },
+      {
+        "service_zone": "EWR",
+        "row_count_024": 168,
+        "sum_actual_pickups_024": 114,
+        "model_mae_024": 0.8971,
+        "model_rmse_024": 1.36,
+        "model_r2_024": -0.934447,
+        "model_wape_pct_024": 132.2077,
+        "naive_mae_024": 0.75,
+        "naive_rmse_024": 1.1852,
+        "rmse_improvement_pct_024": -14.75
+      }
+    ],
+    "by_hour_period_024": [
+      {
+        "hour_period_024": "Off-Peak (00-16, 22-23)",
+        "row_count_024": 34713,
+        "sum_actual_pickups_024": 631200,
+        "model_mae_024": 4.2372,
+        "model_rmse_024": 11.254,
+        "model_r2_024": 0.951878,
+        "model_wape_pct_024": 23.3026,
+        "naive_mae_024": 4.3249,
+        "naive_rmse_024": 12.9133,
+        "rmse_improvement_pct_024": 12.85
+      },
+      {
+        "hour_period_024": "Peak (17-21)",
+        "row_count_024": 9135,
+        "sum_actual_pickups_024": 302694,
+        "model_mae_024": 5.7362,
+        "model_rmse_024": 15.4971,
+        "model_r2_024": 0.962324,
+        "model_wape_pct_024": 17.3113,
+        "naive_mae_024": 6.9876,
+        "naive_rmse_024": 21.76,
+        "rmse_improvement_pct_024": 28.78
+      }
+    ],
+    "by_day_type_024": [
+      {
+        "day_type_024": "Weekday",
+        "row_count_024": 31320,
+        "sum_actual_pickups_024": 672563,
+        "model_mae_024": 4.3394,
+        "model_rmse_024": 11.9834,
+        "model_r2_024": 0.960551,
+        "model_wape_pct_024": 20.2075,
+        "naive_mae_024": 4.6924,
+        "naive_rmse_024": 15.5752,
+        "rmse_improvement_pct_024": 23.06
+      },
+      {
+        "day_type_024": "Weekend",
+        "row_count_024": 12528,
+        "sum_actual_pickups_024": 261331,
+        "model_mae_024": 5.0748,
+        "model_rmse_024": 12.9246,
+        "model_r2_024": 0.943731,
+        "model_wape_pct_024": 24.3284,
+        "naive_mae_024": 5.3477,
+        "naive_rmse_024": 14.1716,
+        "rmse_improvement_pct_024": 8.8
+      }
+    ]
+  },
+  "per_zone_highlights_024": {
+    "top10_highest_rmse_zones_024": [
+      {
+        "PULocationID": 161,
+        "Zone": "Midtown Center",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 4,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 36030,
+        "test_pred_pickups_024": 35636.9,
+        "mae_024": 41.2738,
+        "rmse_024": 59.7753,
+        "wape_pct_024": 19.25,
+        "naive_mae_024": 62.0833,
+        "naive_rmse_024": 107.5453,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 142,
+        "Zone": "Lincoln Square East",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 6,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 30193,
+        "test_pred_pickups_024": 29507.3,
+        "mae_024": 32.9978,
+        "rmse_024": 52.4289,
+        "wape_pct_024": 18.36,
+        "naive_mae_024": 32.1071,
+        "naive_rmse_024": 53.9527,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 236,
+        "Zone": "Upper East Side North",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 2,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 39472,
+        "test_pred_pickups_024": 41989.1,
+        "mae_024": 36.6551,
+        "rmse_024": 52.036,
+        "wape_pct_024": 15.6,
+        "naive_mae_024": 34.2976,
+        "naive_rmse_024": 54.8816,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 237,
+        "Zone": "Upper East Side South",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 1,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 42647,
+        "test_pred_pickups_024": 45339.7,
+        "mae_024": 37.0368,
+        "rmse_024": 51.8694,
+        "wape_pct_024": 14.59,
+        "naive_mae_024": 41.7619,
+        "naive_rmse_024": 60.1899,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 79,
+        "Zone": "East Village",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 9,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 25859,
+        "test_pred_pickups_024": 26085.2,
+        "mae_024": 28.118,
+        "rmse_024": 48.2509,
+        "wape_pct_024": 18.27,
+        "naive_mae_024": 24.375,
+        "naive_rmse_024": 42.8686,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 132,
+        "Zone": "JFK Airport",
+        "Borough": "Queens",
+        "service_zone": "Airports",
+        "zone_demand_rank_024": 3,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 33350,
+        "test_pred_pickups_024": 33160.6,
+        "mae_024": 35.4783,
+        "rmse_024": 48.1871,
+        "wape_pct_024": 17.87,
+        "naive_mae_024": 38.4048,
+        "naive_rmse_024": 51.3912,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 138,
+        "Zone": "LaGuardia Airport",
+        "Borough": "Queens",
+        "service_zone": "Airports",
+        "zone_demand_rank_024": 12,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 22943,
+        "test_pred_pickups_024": 23418.9,
+        "mae_024": 29.9794,
+        "rmse_024": 39.9125,
+        "wape_pct_024": 21.95,
+        "naive_mae_024": 33.1786,
+        "naive_rmse_024": 50.5663,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 162,
+        "Zone": "Midtown East",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 7,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 25930,
+        "test_pred_pickups_024": 26963.2,
+        "mae_024": 28.9789,
+        "rmse_024": 39.6844,
+        "wape_pct_024": 18.78,
+        "naive_mae_024": 44.2381,
+        "naive_rmse_024": 69.2542,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 186,
+        "Zone": "Penn Station/Madison Sq West",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 5,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 27591,
+        "test_pred_pickups_024": 28116.3,
+        "mae_024": 28.2606,
+        "rmse_024": 37.6047,
+        "wape_pct_024": 17.21,
+        "naive_mae_024": 28.1905,
+        "naive_rmse_024": 38.3839,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 230,
+        "Zone": "Times Sq/Theatre District",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 10,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 26103,
+        "test_pred_pickups_024": 25880.9,
+        "mae_024": 21.5195,
+        "rmse_024": 32.1439,
+        "wape_pct_024": 13.85,
+        "naive_mae_024": 22.75,
+        "naive_rmse_024": 32.5317,
+        "beats_naive_rmse_024": true
+      }
+    ],
+    "top10_lowest_wape_within_top50_zones_024": [
+      {
+        "PULocationID": 48,
+        "Zone": "Clinton East",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 16,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 22090,
+        "test_pred_pickups_024": 22135.2,
+        "mae_024": 17.55,
+        "rmse_024": 22.3598,
+        "wape_pct_024": 13.35,
+        "naive_mae_024": 16.9643,
+        "naive_rmse_024": 22.349,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 234,
+        "Zone": "Union Sq",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 11,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 24358,
+        "test_pred_pickups_024": 25508.6,
+        "mae_024": 19.9027,
+        "rmse_024": 25.8529,
+        "wape_pct_024": 13.73,
+        "naive_mae_024": 20.0536,
+        "naive_rmse_024": 27.8695,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 230,
+        "Zone": "Times Sq/Theatre District",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 10,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 26103,
+        "test_pred_pickups_024": 25880.9,
+        "mae_024": 21.5195,
+        "rmse_024": 32.1439,
+        "wape_pct_024": 13.85,
+        "naive_mae_024": 22.75,
+        "naive_rmse_024": 32.5317,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 263,
+        "Zone": "Yorkville West",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 23,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 18416,
+        "test_pred_pickups_024": 18871.7,
+        "mae_024": 15.4374,
+        "rmse_024": 20.5178,
+        "wape_pct_024": 14.08,
+        "naive_mae_024": 15.1964,
+        "naive_rmse_024": 20.8394,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 68,
+        "Zone": "East Chelsea",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 8,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 25104,
+        "test_pred_pickups_024": 26140.2,
+        "mae_024": 21.5939,
+        "rmse_024": 27.4933,
+        "wape_pct_024": 14.45,
+        "naive_mae_024": 21.7083,
+        "naive_rmse_024": 28.7254,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 237,
+        "Zone": "Upper East Side South",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 1,
+        "demand_tier_024": "Top 10",
+        "test_actual_pickups_024": 42647,
+        "test_pred_pickups_024": 45339.7,
+        "mae_024": 37.0368,
+        "rmse_024": 51.8694,
+        "wape_pct_024": 14.59,
+        "naive_mae_024": 41.7619,
+        "naive_rmse_024": 60.1899,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 164,
+        "Zone": "Midtown South",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 20,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 18440,
+        "test_pred_pickups_024": 18847.5,
+        "mae_024": 16.0909,
+        "rmse_024": 21.3647,
+        "wape_pct_024": 14.66,
+        "naive_mae_024": 18.0655,
+        "naive_rmse_024": 24.6247,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 107,
+        "Zone": "Gramercy",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 24,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 17454,
+        "test_pred_pickups_024": 18167.0,
+        "mae_024": 15.7062,
+        "rmse_024": 20.7536,
+        "wape_pct_024": 15.12,
+        "naive_mae_024": 15.5655,
+        "naive_rmse_024": 20.6935,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 140,
+        "Zone": "Lenox Hill East",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 21,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 18937,
+        "test_pred_pickups_024": 19437.8,
+        "mae_024": 17.2194,
+        "rmse_024": 23.3714,
+        "wape_pct_024": 15.28,
+        "naive_mae_024": 17.1667,
+        "naive_rmse_024": 24.7557,
+        "beats_naive_rmse_024": true
+      },
+      {
+        "PULocationID": 141,
+        "Zone": "Lenox Hill West",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "zone_demand_rank_024": 17,
+        "demand_tier_024": "High (11-50)",
+        "test_actual_pickups_024": 20832,
+        "test_pred_pickups_024": 21745.0,
+        "mae_024": 18.982,
+        "rmse_024": 26.5647,
+        "wape_pct_024": 15.31,
+        "naive_mae_024": 23.381,
+        "naive_rmse_024": 32.1818,
+        "beats_naive_rmse_024": true
+      }
+    ],
+    "top10_lowest_mae_active_ge100_zones_024": [
+      {
+        "PULocationID": 259,
+        "Zone": "Woodlawn/Wakefield",
+        "Borough": "Bronx",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 165,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 100,
+        "test_pred_pickups_024": 165.3,
+        "mae_024": 0.8358,
+        "rmse_024": 1.3208,
+        "wape_pct_024": 140.41,
+        "naive_mae_024": 0.625,
+        "naive_rmse_024": 1.0322,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 1,
+        "Zone": "Newark Airport",
+        "Borough": "EWR",
+        "service_zone": "EWR",
+        "zone_demand_rank_024": 155,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 114,
+        "test_pred_pickups_024": 188.5,
+        "mae_024": 0.8971,
+        "rmse_024": 1.36,
+        "wape_pct_024": 132.21,
+        "naive_mae_024": 0.75,
+        "naive_rmse_024": 1.1852,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 248,
+        "Zone": "West Farms/Bronx River",
+        "Borough": "Bronx",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 152,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 124,
+        "test_pred_pickups_024": 192.9,
+        "mae_024": 0.9167,
+        "rmse_024": 1.5553,
+        "wape_pct_024": 124.2,
+        "naive_mae_024": 0.6548,
+        "naive_rmse_024": 1.1751,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 102,
+        "Zone": "Glendale",
+        "Borough": "Queens",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 160,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 113,
+        "test_pred_pickups_024": 179.8,
+        "mae_024": 0.9489,
+        "rmse_024": 1.513,
+        "wape_pct_024": 141.08,
+        "naive_mae_024": 0.6607,
+        "naive_rmse_024": 1.2464,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 250,
+        "Zone": "Westchester Village/Unionport",
+        "Borough": "Bronx",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 163,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 101,
+        "test_pred_pickups_024": 179.0,
+        "mae_024": 0.9593,
+        "rmse_024": 1.537,
+        "wape_pct_024": 159.56,
+        "naive_mae_024": 0.6131,
+        "naive_rmse_024": 1.126,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 200,
+        "Zone": "Riverdale/North Riverdale/Fieldston",
+        "Borough": "Bronx",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 159,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 103,
+        "test_pred_pickups_024": 173.6,
+        "mae_024": 0.9728,
+        "rmse_024": 1.4294,
+        "wape_pct_024": 158.68,
+        "naive_mae_024": 0.7321,
+        "naive_rmse_024": 1.2464,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 47,
+        "Zone": "Claremont/Bathgate",
+        "Borough": "Bronx",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 164,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 112,
+        "test_pred_pickups_024": 166.8,
+        "mae_024": 0.9743,
+        "rmse_024": 1.4029,
+        "wape_pct_024": 146.15,
+        "naive_mae_024": 0.744,
+        "naive_rmse_024": 1.1624,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 54,
+        "Zone": "Columbia Street",
+        "Borough": "Brooklyn",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 138,
+        "demand_tier_024": "Medium (51-150)",
+        "test_actual_pickups_024": 153,
+        "test_pred_pickups_024": 223.4,
+        "mae_024": 0.9876,
+        "rmse_024": 1.4833,
+        "wape_pct_024": 108.44,
+        "naive_mae_024": 0.869,
+        "naive_rmse_024": 1.3318,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 18,
+        "Zone": "Bedford Park",
+        "Borough": "Bronx",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 150,
+        "demand_tier_024": "Medium (51-150)",
+        "test_actual_pickups_024": 129,
+        "test_pred_pickups_024": 200.7,
+        "mae_024": 0.9917,
+        "rmse_024": 1.5636,
+        "wape_pct_024": 129.15,
+        "naive_mae_024": 0.8452,
+        "naive_rmse_024": 1.3363,
+        "beats_naive_rmse_024": false
+      },
+      {
+        "PULocationID": 77,
+        "Zone": "East New York/Pennsylvania Avenue",
+        "Borough": "Brooklyn",
+        "service_zone": "Boro Zone",
+        "zone_demand_rank_024": 156,
+        "demand_tier_024": "Low (>150)",
+        "test_actual_pickups_024": 100,
+        "test_pred_pickups_024": 171.6,
+        "mae_024": 1.0043,
+        "rmse_024": 1.4981,
+        "wape_pct_024": 168.73,
+        "naive_mae_024": 0.6667,
+        "naive_rmse_024": 1.1701,
+        "beats_naive_rmse_024": false
+      }
+    ]
+  }
+}

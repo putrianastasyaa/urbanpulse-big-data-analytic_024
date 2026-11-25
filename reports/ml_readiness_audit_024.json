@@ -1,0 +1,188 @@
+{
+  "metadata_024": {
+    "project_024": "UrbanPulse — Intelligent Urban Taxi Analytics",
+    "phase_024": "ML Readiness Audit & Implementation Plan (Read-Only, No Training)",
+    "hdfs_source_024": "hdfs://localhost:9000/urbanpulse_024/analytics/gold_demand_features_024",
+    "dataset_scope_024": "NYC TLC Yellow Taxi — September 2026 (1 month within last 12 months)",
+    "audited_at_utc_024": "2026-11-25T01:21:59Z",
+    "read_only_verified_024": true
+  },
+  "dataset_readiness_024": {
+    "full_panel_rows_024": 187920,
+    "warmup_rows_sep01_sep07_024": 43848,
+    "ml_ready_rows_sep08_sep30_024": 144072,
+    "ml_ready_days_024": 23,
+    "ml_ready_hours_024": 552,
+    "active_zones_024": 261,
+    "ml_ready_nonzero_nulls_024": {},
+    "zero_leakage_verified_024": true,
+    "ready_for_baseline_forecasting_024": true
+  },
+  "target_distribution_024": [
+    {
+      "segment_024": "All 261 Zones (ML-Ready Sep 8-30)",
+      "rows_024": 144072,
+      "sum_pickups_024": 3103734,
+      "zero_rows_024": 65846,
+      "zero_pct_024": 45.7035,
+      "mean_024": 21.5429,
+      "stddev_024": 59.0259,
+      "min_024": 0,
+      "p25_024": 0.0,
+      "p50_median_024": 1.0,
+      "p75_024": 7.0,
+      "p90_024": 69.0,
+      "p95_024": 143.0,
+      "p99_024": 294.0,
+      "max_024": 789
+    },
+    {
+      "segment_024": "Top 50 Operational Zones (ML-Ready)",
+      "rows_024": 27600,
+      "sum_pickups_024": 2823075,
+      "zero_rows_024": 164,
+      "zero_pct_024": 0.5942,
+      "mean_024": 102.2853,
+      "stddev_024": 99.8171,
+      "min_024": 0,
+      "p25_024": 27.0,
+      "p50_median_024": 73.0,
+      "p75_024": 148.0,
+      "p90_024": 231.0,
+      "p95_024": 299.0,
+      "p99_024": 451.0,
+      "max_024": 789
+    },
+    {
+      "segment_024": "Remaining 211 Zones (ML-Ready)",
+      "rows_024": 116472,
+      "sum_pickups_024": 280659,
+      "zero_rows_024": 65682,
+      "zero_pct_024": 56.393,
+      "mean_024": 2.4097,
+      "stddev_024": 6.1448,
+      "min_024": 0,
+      "p25_024": 0.0,
+      "p50_median_024": 0.0,
+      "p75_024": 2.0,
+      "p90_024": 7.0,
+      "p95_024": 13.0,
+      "p99_024": 30.0,
+      "max_024": 183
+    }
+  ],
+  "feature_target_pearson_corr_024": {
+    "lag_1h_pickup_count_024": 0.962153,
+    "lag_168h_pickup_count_024": 0.954356,
+    "lag_24h_pickup_count_024": 0.925335,
+    "rolling_avg_24h_pickup_count_024": 0.79848,
+    "rolling_avg_7d_pickup_count_024": 0.78503,
+    "rolling_std_7d_pickup_count_024": 0.771109
+  },
+  "chronological_splits_024": {
+    "two_way_70_30_024": [
+      {
+        "split_name_024": "Train (Sep 08 - Sep 23, 16 days)",
+        "rows_024": 100224,
+        "pct_of_ml_ready_024": 69.57,
+        "days_024": 16,
+        "hours_024": 384,
+        "min_ts_024": "2026-09-08 00:00:00",
+        "max_ts_024": "2026-09-23 23:00:00",
+        "sum_pickups_024": 2169840,
+        "mean_pickups_per_zh_024": 21.6499
+      },
+      {
+        "split_name_024": "Test Holdout (Sep 24 - Sep 30, 7 days)",
+        "rows_024": 43848,
+        "pct_of_ml_ready_024": 30.43,
+        "days_024": 7,
+        "hours_024": 168,
+        "min_ts_024": "2026-09-24 00:00:00",
+        "max_ts_024": "2026-09-30 23:00:00",
+        "sum_pickups_024": 933894,
+        "mean_pickups_per_zh_024": 21.2984
+      }
+    ],
+    "three_way_train_val_test_024": [
+      {
+        "split_name_024": "Train (Sep 08 - Sep 20, 13 days)",
+        "rows_024": 81432,
+        "pct_of_ml_ready_024": 56.52,
+        "days_024": 13,
+        "hours_024": 312,
+        "min_ts_024": "2026-09-08 00:00:00",
+        "max_ts_024": "2026-09-20 23:00:00",
+        "sum_pickups_024": 1817440,
+        "mean_pickups_per_zh_024": 22.3185
+      },
+      {
+        "split_name_024": "Validation (Sep 21 - Sep 23, 3 days)",
+        "rows_024": 18792,
+        "pct_of_ml_ready_024": 13.04,
+        "days_024": 3,
+        "hours_024": 72,
+        "min_ts_024": "2026-09-21 00:00:00",
+        "max_ts_024": "2026-09-23 23:00:00",
+        "sum_pickups_024": 352400,
+        "mean_pickups_per_zh_024": 18.7527
+      },
+      {
+        "split_name_024": "Test Holdout (Sep 24 - Sep 30, 7 days)",
+        "rows_024": 43848,
+        "pct_of_ml_ready_024": 30.43,
+        "days_024": 7,
+        "hours_024": 168,
+        "min_ts_024": "2026-09-24 00:00:00",
+        "max_ts_024": "2026-09-30 23:00:00",
+        "sum_pickups_024": 933894,
+        "mean_pickups_per_zh_024": 21.2984
+      }
+    ]
+  },
+  "naive_persistence_reference_sep24_30_024": [
+    {
+      "segment_024": "All 261 Zones",
+      "naive_rule_024": "lag_168h_pickup_count_024",
+      "mae_024": 4.8796,
+      "rmse_024": 15.1874
+    },
+    {
+      "segment_024": "All 261 Zones",
+      "naive_rule_024": "lag_1h_pickup_count_024",
+      "mae_024": 5.6721,
+      "rmse_024": 16.4549
+    },
+    {
+      "segment_024": "All 261 Zones",
+      "naive_rule_024": "lag_24h_pickup_count_024",
+      "mae_024": 6.7492,
+      "rmse_024": 22.7553
+    },
+    {
+      "segment_024": "All 261 Zones",
+      "naive_rule_024": "rolling_avg_7d_pickup_count_024",
+      "mae_024": 12.5495,
+      "rmse_024": 36.2247
+    },
+    {
+      "segment_024": "Top 50 Zones",
+      "naive_rule_024": "lag_168h_pickup_count_024",
+      "mae_024": 19.7748,
+      "rmse_024": 34.1088
+    },
+    {
+      "segment_024": "Top 50 Zones",
+      "naive_rule_024": "lag_1h_pickup_count_024",
+      "mae_024": 23.7404,
+      "rmse_024": 37.0528
+    }
+  ],
+  "missing_supporting_assets_024": {
+    "taxi_zone_lookup_csv_024": false,
+    "nyc_taxi_zones_geojson_024": false,
+    "ml_training_scripts_024": false,
+    "ml_evaluation_scripts_024": false,
+    "serving_layer_exports_in_data_analytics_024": false
+  }
+}

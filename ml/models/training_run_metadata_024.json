@@ -1,0 +1,397 @@
+{
+  "metadata_024": {
+    "project_024": "UrbanPulse — Intelligent Urban Taxi Analytics",
+    "script_024": "ml/training/train_demand_model_024.py",
+    "hdfs_gold_input_024": "hdfs://localhost:9000/urbanpulse_024/analytics/gold_demand_features_024",
+    "zone_lookup_input_024": "data/reference/taxi_zone_lookup_024.csv",
+    "spark_version_024": "4.0.4",
+    "spark_master_024": "local[*]",
+    "executed_at_utc_024": "2026-11-25T01:51:17.197301+00:00",
+    "elapsed_seconds_024": 141.37
+  },
+  "feature_specification_024": {
+    "target_column_024": "pickup_count_024",
+    "numeric_features_024": [
+      "lag_1h_pickup_count_024",
+      "lag_24h_pickup_count_024",
+      "lag_168h_pickup_count_024",
+      "rolling_avg_24h_pickup_count_024",
+      "rolling_avg_7d_pickup_count_024",
+      "rolling_std_7d_pickup_count_024",
+      "pickup_hour_024",
+      "day_of_week_024",
+      "is_weekend_num_024",
+      "is_rush_hour_num_024",
+      "hour_sin_024",
+      "hour_cos_024",
+      "dow_sin_024",
+      "dow_cos_024",
+      "is_known_pickup_zone_num_024"
+    ],
+    "categorical_zone_encoding_024": "PULocationID cast to string -> StringIndexer(handleInvalid='keep') -> OneHotEncoder(dropLast=True) inside Spark MLlib Pipeline (fit strictly on training split)",
+    "excluded_columns_024": [
+      "PULocationID",
+      "day_name_024",
+      "day_type_024",
+      "is_ml_ready_full_history_024",
+      "is_observed_in_silver_024",
+      "non_reversed_pickup_count_024",
+      "period_024",
+      "pickup_count_024",
+      "pickup_date_024",
+      "pickup_ts_hour_024",
+      "time_of_day_bucket_024"
+    ],
+    "post_processing_024": "predicted_demand_024 = max(0.0, raw_prediction_024)",
+    "uncertainty_band_note_024": "+/- 1.28 * Validation RMSE (12.0061) = +/- 15.3678 (derived strictly from Validation, zero test leakage)"
+  },
+  "pre_training_checks_024": {
+    "total_ml_ready_rows_024": 144072,
+    "feature_null_count_total_024": 0,
+    "target_excluded_from_features_024": true,
+    "chronological_non_overlap_verified_024": true,
+    "train_bounds_024": {
+      "rows_024": 81432,
+      "min_ts_024": "2026-09-08 00:00:00",
+      "max_ts_024": "2026-09-20 23:00:00",
+      "min_date_024": "2026-09-08",
+      "max_date_024": "2026-09-20"
+    },
+    "validation_bounds_024": {
+      "rows_024": 18792,
+      "min_ts_024": "2026-09-21 00:00:00",
+      "max_ts_024": "2026-09-23 23:00:00",
+      "min_date_024": "2026-09-21",
+      "max_date_024": "2026-09-23"
+    },
+    "test_bounds_024": {
+      "rows_024": 43848,
+      "min_ts_024": "2026-09-24 00:00:00",
+      "max_ts_024": "2026-09-30 23:00:00",
+      "min_date_024": "2026-09-24",
+      "max_date_024": "2026-09-30"
+    }
+  },
+  "chronological_split_policy_024": {
+    "warmup_excluded_024": "2026-09-01 .. 2026-09-07 (7 days, 43,848 rows)",
+    "train_selection_024": "2026-09-08 .. 2026-09-20 (13 days, 81,432 rows)",
+    "validation_024": "2026-09-21 .. 2026-09-23 (3 days, 18,792 rows)",
+    "final_refit_train_024": "2026-09-08 .. 2026-09-23 (16 days, 100,224 rows)",
+    "test_holdout_024": "2026-09-24 .. 2026-09-30 (7 days, 43,848 rows)"
+  },
+  "validation_comparison_024": [
+    {
+      "model_id_024": "naive_lag_168h_024",
+      "model_family_024": "Seasonal Naive Persistence Baseline",
+      "params_024": {
+        "lag_hours": 168
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 0.0,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 5.0031,
+          "rmse_024": 17.8666,
+          "r2_024": 0.88846,
+          "wape_pct_024": 26.6793
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 21.2731,
+          "rmse_024": 40.4432,
+          "r2_024": 0.807399,
+          "wape_pct_024": 23.5059
+        }
+      }
+    },
+    {
+      "model_id_024": "ridge_reg_0p1_024",
+      "model_family_024": "Ridge Regression (LinearRegression)",
+      "params_024": {
+        "regParam": 0.1,
+        "elasticNetParam": 0.0,
+        "maxIter": 100
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 6.04,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.3635,
+          "rmse_024": 12.0061,
+          "r2_024": 0.949633,
+          "wape_pct_024": 23.2685
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 16.6637,
+          "rmse_024": 26.9129,
+          "r2_024": 0.914712,
+          "wape_pct_024": 18.4127
+        }
+      }
+    },
+    {
+      "model_id_024": "ridge_reg_1p0_024",
+      "model_family_024": "Ridge Regression (LinearRegression)",
+      "params_024": {
+        "regParam": 1.0,
+        "elasticNetParam": 0.0,
+        "maxIter": 100
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 4.05,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.4459,
+          "rmse_024": 12.0681,
+          "r2_024": 0.949111,
+          "wape_pct_024": 23.7079
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 16.8911,
+          "rmse_024": 27.0509,
+          "r2_024": 0.913835,
+          "wape_pct_024": 18.664
+        }
+      }
+    },
+    {
+      "model_id_024": "random_forest_d8_t40_024",
+      "model_family_024": "Random Forest Regressor",
+      "params_024": {
+        "numTrees": 40,
+        "maxDepth": 8,
+        "minInstancesPerNode": 5,
+        "featureSubsetStrategy": "onethird",
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 14.02,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.363,
+          "rmse_024": 12.944,
+          "r2_024": 0.941456,
+          "wape_pct_024": 23.2659
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 18.3432,
+          "rmse_024": 29.2612,
+          "r2_024": 0.899179,
+          "wape_pct_024": 20.2686
+        }
+      }
+    },
+    {
+      "model_id_024": "random_forest_d10_t60_024",
+      "model_family_024": "Random Forest Regressor",
+      "params_024": {
+        "numTrees": 60,
+        "maxDepth": 10,
+        "minInstancesPerNode": 5,
+        "featureSubsetStrategy": "onethird",
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 27.79,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.262,
+          "rmse_024": 12.7024,
+          "r2_024": 0.943621,
+          "wape_pct_024": 22.7273
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 18.0248,
+          "rmse_024": 28.7192,
+          "r2_024": 0.902879,
+          "wape_pct_024": 19.9167
+        }
+      }
+    },
+    {
+      "model_id_024": "gbt_d5_i40_024",
+      "model_family_024": "Gradient-Boosted Tree Regressor",
+      "params_024": {
+        "maxIter": 40,
+        "maxDepth": 5,
+        "stepSize": 0.1,
+        "subsamplingRate": 0.8,
+        "minInstancesPerNode": 5,
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 28.1,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.7809,
+          "rmse_024": 14.469,
+          "r2_024": 0.926849,
+          "wape_pct_024": 25.4943
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 19.793,
+          "rmse_024": 32.6362,
+          "r2_024": 0.87458,
+          "wape_pct_024": 21.8706
+        }
+      }
+    },
+    {
+      "model_id_024": "gbt_d6_i60_024",
+      "model_family_024": "Gradient-Boosted Tree Regressor",
+      "params_024": {
+        "maxIter": 60,
+        "maxDepth": 6,
+        "stepSize": 0.08,
+        "subsamplingRate": 0.8,
+        "minInstancesPerNode": 5,
+        "seed": 24
+      },
+      "status_024": "succeeded",
+      "train_seconds_024": 32.85,
+      "validation_metrics_024": {
+        "all_261_zones_024": {
+          "row_count_024": 18792,
+          "mae_024": 4.5398,
+          "rmse_024": 13.9893,
+          "r2_024": 0.931619,
+          "wape_pct_024": 24.2089
+        },
+        "top_50_zones_024": {
+          "row_count_024": 3600,
+          "mae_024": 19.0335,
+          "rmse_024": 31.5815,
+          "r2_024": 0.882555,
+          "wape_pct_024": 21.0313
+        }
+      }
+    }
+  ],
+  "selected_model_024": {
+    "model_id_024": "ridge_reg_0p1_024",
+    "model_family_024": "Ridge Regression (LinearRegression)",
+    "params_024": {
+      "regParam": 0.1,
+      "elasticNetParam": 0.0,
+      "maxIter": 100
+    },
+    "selection_basis_024": "Selected strictly on Validation (Sep 21-23) based on lowest All-261 RMSE with MAE tie-break; refit once on Sep 8-23 (100,224 rows).",
+    "refit_seconds_024": 2.11,
+    "saved_model_path_024": "ml/models/ridge_reg_0p1_024",
+    "model_reload_verified_024": true,
+    "predictions_parquet_path_024": "data/analytics/demand_predictions_024.parquet",
+    "predictions_rows_verified_024": 43848,
+    "interpretability_024": {
+      "type_024": "linear_standardized_coefficients",
+      "intercept_024": 3.189081,
+      "total_feature_dim_024": 276,
+      "numeric_coefficients_024": [
+        {
+          "feature_024": "lag_1h_pickup_count_024",
+          "standardized_coef_024": 28.878279
+        },
+        {
+          "feature_024": "lag_168h_pickup_count_024",
+          "standardized_coef_024": 20.214167
+        },
+        {
+          "feature_024": "lag_24h_pickup_count_024",
+          "standardized_coef_024": 10.390766
+        },
+        {
+          "feature_024": "rolling_std_7d_pickup_count_024",
+          "standardized_coef_024": -8.300487
+        },
+        {
+          "feature_024": "rolling_avg_7d_pickup_count_024",
+          "standardized_coef_024": -8.139432
+        },
+        {
+          "feature_024": "rolling_avg_24h_pickup_count_024",
+          "standardized_coef_024": 1.095704
+        },
+        {
+          "feature_024": "is_weekend_num_024",
+          "standardized_coef_024": 0.962046
+        },
+        {
+          "feature_024": "hour_sin_024",
+          "standardized_coef_024": 0.908363
+        },
+        {
+          "feature_024": "day_of_week_024",
+          "standardized_coef_024": -0.859378
+        },
+        {
+          "feature_024": "pickup_hour_024",
+          "standardized_coef_024": 0.847819
+        },
+        {
+          "feature_024": "is_rush_hour_num_024",
+          "standardized_coef_024": 0.801782
+        },
+        {
+          "feature_024": "dow_cos_024",
+          "standardized_coef_024": -0.726913
+        },
+        {
+          "feature_024": "hour_cos_024",
+          "standardized_coef_024": -0.710306
+        },
+        {
+          "feature_024": "is_known_pickup_zone_num_024",
+          "standardized_coef_024": 0.252157
+        },
+        {
+          "feature_024": "dow_sin_024",
+          "standardized_coef_024": -0.129631
+        }
+      ]
+    }
+  },
+  "final_test_holdout_summary_024": {
+    "selected_model_test_metrics_024": {
+      "all_261_zones_024": {
+        "row_count_024": 43848,
+        "mae_024": 4.5495,
+        "rmse_024": 12.2597,
+        "r2_024": 0.956415,
+        "wape_pct_024": 21.3607
+      },
+      "top_50_zones_024": {
+        "row_count_024": 8400,
+        "mae_024": 17.4498,
+        "rmse_024": 27.4563,
+        "r2_024": 0.924377,
+        "wape_pct_024": 17.2517
+      }
+    },
+    "naive_lag_168h_test_metrics_024": {
+      "all_261_zones_024": {
+        "row_count_024": 43848,
+        "mae_024": 4.8796,
+        "rmse_024": 15.1874,
+        "r2_024": 0.933112,
+        "wape_pct_024": 22.9106
+      },
+      "top_50_zones_024": {
+        "row_count_024": 8400,
+        "mae_024": 19.7748,
+        "rmse_024": 34.1088,
+        "r2_024": 0.883291,
+        "wape_pct_024": 19.5503
+      }
+    }
+  }
+}

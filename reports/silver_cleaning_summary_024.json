@@ -1,0 +1,1484 @@
+{
+  "metadata_024": {
+    "project_024": "UrbanPulse — Intelligent Urban Taxi Analytics",
+    "silver_version_024": "v2_audit_refined_024",
+    "script_024": "spark/processing/clean_yellow_taxi_024.py",
+    "hdfs_raw_input_024": "hdfs://localhost:9000/urbanpulse_024/raw/yellow_taxi/yellow_tripdata_2026-09_024.parquet",
+    "hdfs_written_path_024": "hdfs://localhost:9000/urbanpulse_024/processed/yellow_taxi_024_staging_v2",
+    "hdfs_live_target_path_024": "hdfs://localhost:9000/urbanpulse_024/processed/yellow_taxi_024",
+    "hdfs_atomic_swap_completed_024": true,
+    "hdfs_live_readback_verified_024": true,
+    "hdfs_live_size_human_024": "159.2 M",
+    "spark_version_024": "4.0.4",
+    "spark_master_024": "local[*]",
+    "output_partitions_024": 8,
+    "executed_at_utc_024": "2026-11-25T00:52:58.246776+00:00",
+    "elapsed_seconds_024": 77.64
+  },
+  "cleaning_policy_v2_024": {
+    "hard_removal_rules_024": {
+      "target_pickup_start_024": "2026-09-01 00:00:00",
+      "target_pickup_end_exclusive_024": "2026-10-01 00:00:00",
+      "location_id_range_024": [
+        1,
+        265
+      ],
+      "negative_duration_or_distance_removed_024": true,
+      "non_positive_total_amount_removed_024": true,
+      "corrupt_extreme_amount_gt_usd_024": 2000.0
+    },
+    "preserved_and_flagged_in_silver_024": {
+      "passenger_count_null_024": "is_passenger_missing_024 (Flex Fare preserved)",
+      "zero_fare_with_positive_total_024": "is_zero_fare_024 (VendorID=6 Flex Fare preserved)",
+      "negative_component_with_positive_total_024": "is_negative_component_024",
+      "positive_counterpart_of_raw_negative_reversal_024": "has_negative_reversal_pair_024",
+      "zero_duration_024": "is_zero_duration_024 (VendorID=7 preserved; trip_duration_valid_min_024=NULL)",
+      "extreme_duration_gt_180m_024": "is_extreme_duration_024 (trip_duration_valid_min_024=NULL)",
+      "zero_distance_024": "is_zero_distance_024 (Flex Fare preserved; trip_distance_valid_mi_024=NULL)",
+      "extreme_distance_gt_100mi_024": "is_extreme_distance_024 (trip_distance_valid_mi_024=NULL)",
+      "extreme_speed_gt_80mph_024": "is_extreme_speed_024 (avg_speed_mph_024=NULL)",
+      "high_fare_500_to_2000_or_tip_gt_200_024": "is_high_fare_outlier_024 (fare/total_valid_usd_024=NULL)",
+      "unknown_zones_264_265_024": "is_known_pickup_zone_024 / is_known_dropoff_zone_024"
+    }
+  },
+  "cleaning_impact_v2_024": {
+    "raw_total_rows_024": 3876044,
+    "silver_v2_retained_rows_024": 3860852,
+    "silver_v2_dropped_rows_024": 15192,
+    "retention_pct_024": 99.6081,
+    "dropped_pct_024": 0.3919,
+    "v2_hard_removal_rules_024": {
+      "out_of_period_sept_2026_024": {
+        "count_024": 22,
+        "pct_of_raw_024": 0.0006
+      },
+      "invalid_location_outside_1_265_024": {
+        "count_024": 0,
+        "pct_of_raw_024": 0.0
+      },
+      "negative_duration_or_distance_024": {
+        "count_024": 0,
+        "pct_of_raw_024": 0.0
+      },
+      "non_positive_total_amount_024": {
+        "count_024": 15168,
+        "pct_of_raw_024": 0.3913,
+        "in_period_negative_total_024": 14688,
+        "in_period_negative_mirror_matched_024": 13018,
+        "in_period_negative_mirror_pct_024": 88.6302,
+        "in_period_negative_unmatched_024": 1670,
+        "in_period_zero_total_024": 480
+      },
+      "corrupt_extreme_amount_gt_2000_024": {
+        "count_024": 2,
+        "pct_of_raw_024": 0.0001
+      }
+    },
+    "v2_dropped_disjoint_combinations_024": [
+      {
+        "rule_combination_024": "non_positive_total_amount_024",
+        "disjoint_rows_024": 15168,
+        "pct_of_dropped_024": 99.842,
+        "pct_of_raw_024": 0.3913
+      },
+      {
+        "rule_combination_024": "out_of_period_024",
+        "disjoint_rows_024": 22,
+        "pct_of_dropped_024": 0.1448,
+        "pct_of_raw_024": 0.0006
+      },
+      {
+        "rule_combination_024": "corrupt_extreme_amount_gt_2000_024",
+        "disjoint_rows_024": 2,
+        "pct_of_dropped_024": 0.0132,
+        "pct_of_raw_024": 0.0001
+      }
+    ],
+    "recovered_vs_silver_v1_024": {
+      "total_unique_recovered_rows_024": 3527,
+      "by_relaxed_rule_gross_024": {
+        "zero_fare_with_positive_total_024": 1409,
+        "vendor6_flex_zero_fare_subset_024": 805,
+        "negative_component_with_positive_total_024": 42,
+        "extreme_duration_gt_180m_024": 839,
+        "extreme_distance_gt_100mi_024": 123,
+        "extreme_speed_gt_80mph_024": 1158,
+        "high_fare_500_to_2000_or_tip_gt_200_024": 64
+      }
+    },
+    "valid_segment_preservation_024": {
+      "flex_fare_raw_024": 1190413,
+      "flex_fare_silver_v2_024": 1190293,
+      "flex_fare_retention_pct_024": 99.9899,
+      "vendor7_raw_024": 47893,
+      "vendor7_silver_v2_024": 47893,
+      "vendor7_retention_pct_024": 100.0,
+      "vendor6_raw_024": 5236,
+      "vendor6_silver_v2_024": 5174,
+      "vendor6_retention_pct_024": 98.8159
+    }
+  },
+  "silver_v2_verification_024": {
+    "readback_verified_024": true,
+    "hdfs_verified_path_024": "hdfs://localhost:9000/urbanpulse_024/processed/yellow_taxi_024_staging_v2",
+    "silver_v2_rows_verified_024": 3860852,
+    "silver_v2_column_count_024": 49,
+    "original_21_columns_preserved_exact_024": true,
+    "all_derived_columns_have_024_suffix_024": true,
+    "derived_columns_added_024": [
+      "pickup_date_024",
+      "pickup_hour_024",
+      "day_of_week_024",
+      "day_name_024",
+      "is_weekend_024",
+      "period_024",
+      "time_of_day_bucket_024",
+      "trip_duration_min_024",
+      "trip_duration_valid_min_024",
+      "trip_distance_valid_mi_024",
+      "avg_speed_mph_024",
+      "fare_amount_valid_usd_024",
+      "total_amount_valid_usd_024",
+      "tip_ratio_024",
+      "is_flex_fare_024",
+      "is_passenger_missing_024",
+      "is_passenger_valid_024",
+      "is_zero_duration_024",
+      "is_extreme_duration_024",
+      "is_zero_distance_024",
+      "is_extreme_distance_024",
+      "is_extreme_speed_024",
+      "is_zero_fare_024",
+      "is_high_fare_outlier_024",
+      "is_negative_component_024",
+      "has_negative_reversal_pair_024",
+      "is_known_pickup_zone_024",
+      "is_known_dropoff_zone_024"
+    ],
+    "temporal_range_silver_v2_024": {
+      "tpep_pickup_datetime_min_024": "2026-09-01 00:00:02",
+      "tpep_pickup_datetime_max_024": "2026-09-30 23:59:59",
+      "tpep_dropoff_datetime_min_024": "2026-09-01 00:00:59",
+      "tpep_dropoff_datetime_max_024": "2026-10-01 19:02:57"
+    },
+    "flag_summary_024": {
+      "is_flex_fare_024": {
+        "true_count_024": 1190293,
+        "true_pct_024": 30.8298
+      },
+      "is_passenger_missing_024": {
+        "true_count_024": 1190293,
+        "true_pct_024": 30.8298
+      },
+      "is_passenger_valid_024": {
+        "true_count_024": 2660082,
+        "true_pct_024": 68.8988
+      },
+      "is_zero_duration_024": {
+        "true_count_024": 48157,
+        "true_pct_024": 1.2473
+      },
+      "is_extreme_duration_024": {
+        "true_count_024": 839,
+        "true_pct_024": 0.0217
+      },
+      "is_zero_distance_024": {
+        "true_count_024": 145266,
+        "true_pct_024": 3.7625
+      },
+      "is_extreme_distance_024": {
+        "true_count_024": 123,
+        "true_pct_024": 0.0032
+      },
+      "is_extreme_speed_024": {
+        "true_count_024": 1158,
+        "true_pct_024": 0.03
+      },
+      "is_zero_fare_024": {
+        "true_count_024": 1409,
+        "true_pct_024": 0.0365
+      },
+      "is_high_fare_outlier_024": {
+        "true_count_024": 64,
+        "true_pct_024": 0.0017
+      },
+      "is_negative_component_024": {
+        "true_count_024": 42,
+        "true_pct_024": 0.0011
+      },
+      "has_negative_reversal_pair_024": {
+        "true_count_024": 13018,
+        "true_pct_024": 0.3372
+      },
+      "is_known_pickup_zone_024": {
+        "true_count_024": 3855643,
+        "true_pct_024": 99.8651
+      },
+      "is_known_dropoff_zone_024": {
+        "true_count_024": 3837665,
+        "true_pct_024": 99.3994
+      },
+      "is_weekend_024": {
+        "true_count_024": 1037686,
+        "true_pct_024": 26.8771
+      }
+    },
+    "anomaly_flag_overlap_024": {
+      "clean_no_anomaly_flag_024": 3653858,
+      "single_anomaly_flag_024": 204069,
+      "multi_anomaly_flag_overlap_024": 2925,
+      "top_flag_combinations_024": [
+        {
+          "flag_combination_024": "is_zero_distance_024",
+          "rows_024": 142832,
+          "pct_of_silver_024": 3.6995
+        },
+        {
+          "flag_combination_024": "is_zero_duration_024",
+          "rows_024": 47252,
+          "pct_of_silver_024": 1.2239
+        },
+        {
+          "flag_combination_024": "has_negative_reversal_pair_024",
+          "rows_024": 11170,
+          "pct_of_silver_024": 0.2893
+        },
+        {
+          "flag_combination_024": "is_zero_distance_024 + has_negative_reversal_pair_024",
+          "rows_024": 1315,
+          "pct_of_silver_024": 0.0341
+        },
+        {
+          "flag_combination_024": "is_extreme_speed_024",
+          "rows_024": 1087,
+          "pct_of_silver_024": 0.0282
+        },
+        {
+          "flag_combination_024": "is_zero_duration_024 + is_zero_distance_024",
+          "rows_024": 898,
+          "pct_of_silver_024": 0.0233
+        },
+        {
+          "flag_combination_024": "is_zero_fare_024",
+          "rows_024": 833,
+          "pct_of_silver_024": 0.0216
+        },
+        {
+          "flag_combination_024": "is_extreme_duration_024",
+          "rows_024": 795,
+          "pct_of_silver_024": 0.0206
+        },
+        {
+          "flag_combination_024": "is_zero_fare_024 + has_negative_reversal_pair_024",
+          "rows_024": 381,
+          "pct_of_silver_024": 0.0099
+        },
+        {
+          "flag_combination_024": "is_zero_distance_024 + is_zero_fare_024 + has_negative_reversal_pair_024",
+          "rows_024": 136,
+          "pct_of_silver_024": 0.0035
+        },
+        {
+          "flag_combination_024": "is_extreme_distance_024 + is_extreme_speed_024",
+          "rows_024": 52,
+          "pct_of_silver_024": 0.0013
+        },
+        {
+          "flag_combination_024": "is_extreme_distance_024",
+          "rows_024": 41,
+          "pct_of_silver_024": 0.0011
+        },
+        {
+          "flag_combination_024": "is_zero_distance_024 + is_zero_fare_024",
+          "rows_024": 38,
+          "pct_of_silver_024": 0.001
+        },
+        {
+          "flag_combination_024": "is_negative_component_024",
+          "rows_024": 34,
+          "pct_of_silver_024": 0.0009
+        },
+        {
+          "flag_combination_024": "is_high_fare_outlier_024",
+          "rows_024": 25,
+          "pct_of_silver_024": 0.0006
+        },
+        {
+          "flag_combination_024": "is_extreme_duration_024 + is_zero_distance_024",
+          "rows_024": 15,
+          "pct_of_silver_024": 0.0004
+        },
+        {
+          "flag_combination_024": "is_zero_distance_024 + is_high_fare_outlier_024",
+          "rows_024": 15,
+          "pct_of_silver_024": 0.0004
+        },
+        {
+          "flag_combination_024": "is_extreme_duration_024 + is_extreme_distance_024",
+          "rows_024": 14,
+          "pct_of_silver_024": 0.0004
+        },
+        {
+          "flag_combination_024": "is_extreme_speed_024 + is_zero_fare_024",
+          "rows_024": 13,
+          "pct_of_silver_024": 0.0003
+        },
+        {
+          "flag_combination_024": "is_zero_distance_024 + is_negative_component_024",
+          "rows_024": 8,
+          "pct_of_silver_024": 0.0002
+        }
+      ]
+    },
+    "null_summary_silver_v2_024": [
+      {
+        "column_name": "VendorID",
+        "data_type": "int",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "tpep_pickup_datetime",
+        "data_type": "timestamp_ntz",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "tpep_dropoff_datetime",
+        "data_type": "timestamp_ntz",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "passenger_count",
+        "data_type": "bigint",
+        "is_derived_024": false,
+        "null_count_024": 1190293,
+        "null_pct_024": 30.8298
+      },
+      {
+        "column_name": "trip_distance",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "RatecodeID",
+        "data_type": "bigint",
+        "is_derived_024": false,
+        "null_count_024": 1190293,
+        "null_pct_024": 30.8298
+      },
+      {
+        "column_name": "store_and_fwd_flag",
+        "data_type": "string",
+        "is_derived_024": false,
+        "null_count_024": 1190293,
+        "null_pct_024": 30.8298
+      },
+      {
+        "column_name": "PULocationID",
+        "data_type": "int",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "DOLocationID",
+        "data_type": "int",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "payment_type",
+        "data_type": "bigint",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "fare_amount",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "extra",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "mta_tax",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "tip_amount",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "tolls_amount",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "improvement_surcharge",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "total_amount",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "congestion_surcharge",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 1190293,
+        "null_pct_024": 30.8298
+      },
+      {
+        "column_name": "Airport_fee",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 1190293,
+        "null_pct_024": 30.8298
+      },
+      {
+        "column_name": "cbd_congestion_fee",
+        "data_type": "double",
+        "is_derived_024": false,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "request_source",
+        "data_type": "string",
+        "is_derived_024": false,
+        "null_count_024": 2670880,
+        "null_pct_024": 69.1785
+      },
+      {
+        "column_name": "pickup_date_024",
+        "data_type": "date",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "pickup_hour_024",
+        "data_type": "int",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "day_of_week_024",
+        "data_type": "int",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "day_name_024",
+        "data_type": "string",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_weekend_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "period_024",
+        "data_type": "string",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "time_of_day_bucket_024",
+        "data_type": "string",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "trip_duration_min_024",
+        "data_type": "double",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "trip_duration_valid_min_024",
+        "data_type": "double",
+        "is_derived_024": true,
+        "null_count_024": 48996,
+        "null_pct_024": 1.269
+      },
+      {
+        "column_name": "trip_distance_valid_mi_024",
+        "data_type": "double",
+        "is_derived_024": true,
+        "null_count_024": 145389,
+        "null_pct_024": 3.7657
+      },
+      {
+        "column_name": "avg_speed_mph_024",
+        "data_type": "double",
+        "is_derived_024": true,
+        "null_count_024": 193747,
+        "null_pct_024": 5.0182
+      },
+      {
+        "column_name": "fare_amount_valid_usd_024",
+        "data_type": "double",
+        "is_derived_024": true,
+        "null_count_024": 1495,
+        "null_pct_024": 0.0387
+      },
+      {
+        "column_name": "total_amount_valid_usd_024",
+        "data_type": "double",
+        "is_derived_024": true,
+        "null_count_024": 2,
+        "null_pct_024": 0.0001
+      },
+      {
+        "column_name": "tip_ratio_024",
+        "data_type": "double",
+        "is_derived_024": true,
+        "null_count_024": 1432,
+        "null_pct_024": 0.0371
+      },
+      {
+        "column_name": "is_flex_fare_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_passenger_missing_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_passenger_valid_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_zero_duration_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_extreme_duration_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_zero_distance_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_extreme_distance_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_extreme_speed_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_zero_fare_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_high_fare_outlier_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_negative_component_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "has_negative_reversal_pair_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_known_pickup_zone_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      },
+      {
+        "column_name": "is_known_dropoff_zone_024",
+        "data_type": "boolean",
+        "is_derived_024": true,
+        "null_count_024": 0,
+        "null_pct_024": 0.0
+      }
+    ],
+    "key_statistics_silver_v2_024": [
+      {
+        "column_name": "trip_distance",
+        "non_null_count_024": 3860852,
+        "mean_024": 4.974697,
+        "stddev_024": 464.343451,
+        "min_024": 0.0,
+        "p25_024": 1.06,
+        "p50_median_024": 1.97,
+        "p75_024": 4.16,
+        "p99_024": 19.42,
+        "max_024": 232644.8
+      },
+      {
+        "column_name": "trip_distance_valid_mi_024",
+        "non_null_count_024": 3715463,
+        "mean_024": 3.665158,
+        "stddev_024": 4.332416,
+        "min_024": 0.01,
+        "p25_024": 1.14,
+        "p50_median_024": 2.06,
+        "p75_024": 4.31,
+        "p99_024": 19.53,
+        "max_024": 99.41
+      },
+      {
+        "column_name": "trip_duration_min_024",
+        "non_null_count_024": 3860852,
+        "mean_024": 18.760567,
+        "stddev_024": 20.885435,
+        "min_024": 0.0,
+        "p25_024": 9.2333,
+        "p50_median_024": 15.4333,
+        "p75_024": 24.0667,
+        "p99_024": 69.6,
+        "max_024": 6704.6
+      },
+      {
+        "column_name": "trip_duration_valid_min_024",
+        "non_null_count_024": 3811856,
+        "mean_024": 18.800692,
+        "stddev_024": 13.697827,
+        "min_024": 0.0167,
+        "p25_024": 9.45,
+        "p50_median_024": 15.6,
+        "p75_024": 24.2167,
+        "p99_024": 69.45,
+        "max_024": 179.7167
+      },
+      {
+        "column_name": "avg_speed_mph_024",
+        "non_null_count_024": 3667105,
+        "mean_024": 10.741237,
+        "stddev_024": 6.566232,
+        "min_024": 0.0008,
+        "p25_024": 6.5269,
+        "p50_median_024": 9.1064,
+        "p75_024": 12.9438,
+        "p99_024": 34.164,
+        "max_024": 80.0
+      },
+      {
+        "column_name": "fare_amount",
+        "non_null_count_024": 3860852,
+        "mean_024": 23.274488,
+        "stddev_024": 19.086591,
+        "min_024": -15.92,
+        "p25_024": 10.7,
+        "p50_median_024": 17.7,
+        "p75_024": 29.21,
+        "p99_024": 85.3,
+        "max_024": 1800.0
+      },
+      {
+        "column_name": "fare_amount_valid_usd_024",
+        "non_null_count_024": 3859357,
+        "mean_024": 23.272611,
+        "stddev_024": 18.882902,
+        "min_024": 0.01,
+        "p25_024": 10.7,
+        "p50_median_024": 17.7,
+        "p75_024": 29.21,
+        "p99_024": 85.21,
+        "max_024": 500.0
+      },
+      {
+        "column_name": "total_amount",
+        "non_null_count_024": 3860852,
+        "mean_024": 32.370725,
+        "stddev_024": 22.877361,
+        "min_024": 1.0,
+        "p25_024": 18.25,
+        "p50_median_024": 25.26,
+        "p75_024": 37.6,
+        "p99_024": 107.06,
+        "max_024": 1816.54
+      },
+      {
+        "column_name": "total_amount_valid_usd_024",
+        "non_null_count_024": 3860850,
+        "mean_024": 32.369804,
+        "stddev_024": 22.841612,
+        "min_024": 1.0,
+        "p25_024": 18.25,
+        "p50_median_024": 25.26,
+        "p75_024": 37.6,
+        "p99_024": 107.06,
+        "max_024": 991.0
+      },
+      {
+        "column_name": "tip_amount",
+        "non_null_count_024": 3860852,
+        "mean_024": 2.794383,
+        "stddev_024": 4.066066,
+        "min_024": 0.0,
+        "p25_024": 0.0,
+        "p50_median_024": 2.0,
+        "p75_024": 4.0,
+        "p99_024": 17.65,
+        "max_024": 220.3
+      },
+      {
+        "column_name": "tip_ratio_024",
+        "non_null_count_024": 3859420,
+        "mean_024": 0.157123,
+        "stddev_024": 2.513446,
+        "min_024": 0.0,
+        "p25_024": 0.0,
+        "p50_median_024": 0.1444,
+        "p75_024": 0.2785,
+        "p99_024": 0.5083,
+        "max_024": 4000.0
+      }
+    ]
+  },
+  "distribution_comparison_024": {
+    "totals_024": {
+      "raw_sep_2026_rows_024": 3876022,
+      "silver_v1_rows_024": 3857325,
+      "silver_v2_rows_024": 3860852,
+      "v2_minus_v1_net_recovered_024": 3527,
+      "v2_in_period_dropped_pct_024": 0.3914
+    },
+    "hourly_024": {
+      "raw_peak_hour_024": 18,
+      "silver_v2_peak_hour_024": 18,
+      "raw_quietest_hour_024": 4,
+      "silver_v2_quietest_hour_024": 4,
+      "top5_hours_raw_024": [
+        18,
+        17,
+        19,
+        20,
+        21
+      ],
+      "top5_hours_v2_024": [
+        18,
+        17,
+        19,
+        20,
+        21
+      ],
+      "pearson_raw_vs_v2_024": 0.9999992,
+      "spearman_raw_vs_v2_024": 0.99913043,
+      "hourly_table_024": [
+        {
+          "pickup_hour_024": 0,
+          "raw_sep_pickups_024": 130688,
+          "silver_v2_pickups_024": 130140,
+          "v2_minus_raw_024": -548,
+          "v2_drop_pct_vs_raw_024": 0.4193,
+          "raw_share_pct_024": 3.3717,
+          "v2_share_pct_024": 3.3708,
+          "silver_v1_pickups_024": 130035,
+          "v2_minus_v1_recovered_024": 105
+        },
+        {
+          "pickup_hour_024": 1,
+          "raw_sep_pickups_024": 82835,
+          "silver_v2_pickups_024": 82459,
+          "v2_minus_raw_024": -376,
+          "v2_drop_pct_vs_raw_024": 0.4539,
+          "raw_share_pct_024": 2.1371,
+          "v2_share_pct_024": 2.1358,
+          "silver_v1_pickups_024": 82388,
+          "v2_minus_v1_recovered_024": 71
+        },
+        {
+          "pickup_hour_024": 2,
+          "raw_sep_pickups_024": 56173,
+          "silver_v2_pickups_024": 55890,
+          "v2_minus_raw_024": -283,
+          "v2_drop_pct_vs_raw_024": 0.5038,
+          "raw_share_pct_024": 1.4492,
+          "v2_share_pct_024": 1.4476,
+          "silver_v1_pickups_024": 55852,
+          "v2_minus_v1_recovered_024": 38
+        },
+        {
+          "pickup_hour_024": 3,
+          "raw_sep_pickups_024": 39158,
+          "silver_v2_pickups_024": 38964,
+          "v2_minus_raw_024": -194,
+          "v2_drop_pct_vs_raw_024": 0.4954,
+          "raw_share_pct_024": 1.0103,
+          "v2_share_pct_024": 1.0092,
+          "silver_v1_pickups_024": 38941,
+          "v2_minus_v1_recovered_024": 23
+        },
+        {
+          "pickup_hour_024": 4,
+          "raw_sep_pickups_024": 32315,
+          "silver_v2_pickups_024": 32138,
+          "v2_minus_raw_024": -177,
+          "v2_drop_pct_vs_raw_024": 0.5477,
+          "raw_share_pct_024": 0.8337,
+          "v2_share_pct_024": 0.8324,
+          "silver_v1_pickups_024": 32084,
+          "v2_minus_v1_recovered_024": 54
+        },
+        {
+          "pickup_hour_024": 5,
+          "raw_sep_pickups_024": 36199,
+          "silver_v2_pickups_024": 36055,
+          "v2_minus_raw_024": -144,
+          "v2_drop_pct_vs_raw_024": 0.3978,
+          "raw_share_pct_024": 0.9339,
+          "v2_share_pct_024": 0.9339,
+          "silver_v1_pickups_024": 35987,
+          "v2_minus_v1_recovered_024": 68
+        },
+        {
+          "pickup_hour_024": 6,
+          "raw_sep_pickups_024": 68244,
+          "silver_v2_pickups_024": 68035,
+          "v2_minus_raw_024": -209,
+          "v2_drop_pct_vs_raw_024": 0.3063,
+          "raw_share_pct_024": 1.7607,
+          "v2_share_pct_024": 1.7622,
+          "silver_v1_pickups_024": 67928,
+          "v2_minus_v1_recovered_024": 107
+        },
+        {
+          "pickup_hour_024": 7,
+          "raw_sep_pickups_024": 120617,
+          "silver_v2_pickups_024": 120286,
+          "v2_minus_raw_024": -331,
+          "v2_drop_pct_vs_raw_024": 0.2744,
+          "raw_share_pct_024": 3.1119,
+          "v2_share_pct_024": 3.1155,
+          "silver_v1_pickups_024": 120080,
+          "v2_minus_v1_recovered_024": 206
+        },
+        {
+          "pickup_hour_024": 8,
+          "raw_sep_pickups_024": 151567,
+          "silver_v2_pickups_024": 151224,
+          "v2_minus_raw_024": -343,
+          "v2_drop_pct_vs_raw_024": 0.2263,
+          "raw_share_pct_024": 3.9104,
+          "v2_share_pct_024": 3.9169,
+          "silver_v1_pickups_024": 151047,
+          "v2_minus_v1_recovered_024": 177
+        },
+        {
+          "pickup_hour_024": 9,
+          "raw_sep_pickups_024": 156858,
+          "silver_v2_pickups_024": 156309,
+          "v2_minus_raw_024": -549,
+          "v2_drop_pct_vs_raw_024": 0.35,
+          "raw_share_pct_024": 4.0469,
+          "v2_share_pct_024": 4.0486,
+          "silver_v1_pickups_024": 156114,
+          "v2_minus_v1_recovered_024": 195
+        },
+        {
+          "pickup_hour_024": 10,
+          "raw_sep_pickups_024": 159239,
+          "silver_v2_pickups_024": 158590,
+          "v2_minus_raw_024": -649,
+          "v2_drop_pct_vs_raw_024": 0.4076,
+          "raw_share_pct_024": 4.1083,
+          "v2_share_pct_024": 4.1076,
+          "silver_v1_pickups_024": 158402,
+          "v2_minus_v1_recovered_024": 188
+        },
+        {
+          "pickup_hour_024": 11,
+          "raw_sep_pickups_024": 169752,
+          "silver_v2_pickups_024": 169067,
+          "v2_minus_raw_024": -685,
+          "v2_drop_pct_vs_raw_024": 0.4035,
+          "raw_share_pct_024": 4.3795,
+          "v2_share_pct_024": 4.379,
+          "silver_v1_pickups_024": 168903,
+          "v2_minus_v1_recovered_024": 164
+        },
+        {
+          "pickup_hour_024": 12,
+          "raw_sep_pickups_024": 178130,
+          "silver_v2_pickups_024": 177376,
+          "v2_minus_raw_024": -754,
+          "v2_drop_pct_vs_raw_024": 0.4233,
+          "raw_share_pct_024": 4.5957,
+          "v2_share_pct_024": 4.5942,
+          "silver_v1_pickups_024": 177195,
+          "v2_minus_v1_recovered_024": 181
+        },
+        {
+          "pickup_hour_024": 13,
+          "raw_sep_pickups_024": 184244,
+          "silver_v2_pickups_024": 183397,
+          "v2_minus_raw_024": -847,
+          "v2_drop_pct_vs_raw_024": 0.4597,
+          "raw_share_pct_024": 4.7534,
+          "v2_share_pct_024": 4.7502,
+          "silver_v1_pickups_024": 183196,
+          "v2_minus_v1_recovered_024": 201
+        },
+        {
+          "pickup_hour_024": 14,
+          "raw_sep_pickups_024": 207095,
+          "silver_v2_pickups_024": 206119,
+          "v2_minus_raw_024": -976,
+          "v2_drop_pct_vs_raw_024": 0.4713,
+          "raw_share_pct_024": 5.343,
+          "v2_share_pct_024": 5.3387,
+          "silver_v1_pickups_024": 205921,
+          "v2_minus_v1_recovered_024": 198
+        },
+        {
+          "pickup_hour_024": 15,
+          "raw_sep_pickups_024": 220498,
+          "silver_v2_pickups_024": 219501,
+          "v2_minus_raw_024": -997,
+          "v2_drop_pct_vs_raw_024": 0.4522,
+          "raw_share_pct_024": 5.6888,
+          "v2_share_pct_024": 5.6853,
+          "silver_v1_pickups_024": 219278,
+          "v2_minus_v1_recovered_024": 223
+        },
+        {
+          "pickup_hour_024": 16,
+          "raw_sep_pickups_024": 226593,
+          "silver_v2_pickups_024": 225605,
+          "v2_minus_raw_024": -988,
+          "v2_drop_pct_vs_raw_024": 0.436,
+          "raw_share_pct_024": 5.846,
+          "v2_share_pct_024": 5.8434,
+          "silver_v1_pickups_024": 225374,
+          "v2_minus_v1_recovered_024": 231
+        },
+        {
+          "pickup_hour_024": 17,
+          "raw_sep_pickups_024": 255476,
+          "silver_v2_pickups_024": 254542,
+          "v2_minus_raw_024": -934,
+          "v2_drop_pct_vs_raw_024": 0.3656,
+          "raw_share_pct_024": 6.5912,
+          "v2_share_pct_024": 6.5929,
+          "silver_v1_pickups_024": 254330,
+          "v2_minus_v1_recovered_024": 212
+        },
+        {
+          "pickup_hour_024": 18,
+          "raw_sep_pickups_024": 268207,
+          "silver_v2_pickups_024": 267143,
+          "v2_minus_raw_024": -1064,
+          "v2_drop_pct_vs_raw_024": 0.3967,
+          "raw_share_pct_024": 6.9196,
+          "v2_share_pct_024": 6.9193,
+          "silver_v1_pickups_024": 266942,
+          "v2_minus_v1_recovered_024": 201
+        },
+        {
+          "pickup_hour_024": 19,
+          "raw_sep_pickups_024": 252280,
+          "silver_v2_pickups_024": 251316,
+          "v2_minus_raw_024": -964,
+          "v2_drop_pct_vs_raw_024": 0.3821,
+          "raw_share_pct_024": 6.5087,
+          "v2_share_pct_024": 6.5093,
+          "silver_v1_pickups_024": 251181,
+          "v2_minus_v1_recovered_024": 135
+        },
+        {
+          "pickup_hour_024": 20,
+          "raw_sep_pickups_024": 238797,
+          "silver_v2_pickups_024": 237885,
+          "v2_minus_raw_024": -912,
+          "v2_drop_pct_vs_raw_024": 0.3819,
+          "raw_share_pct_024": 6.1609,
+          "v2_share_pct_024": 6.1615,
+          "silver_v1_pickups_024": 237731,
+          "v2_minus_v1_recovered_024": 154
+        },
+        {
+          "pickup_hour_024": 21,
+          "raw_sep_pickups_024": 236316,
+          "silver_v2_pickups_024": 235505,
+          "v2_minus_raw_024": -811,
+          "v2_drop_pct_vs_raw_024": 0.3432,
+          "raw_share_pct_024": 6.0969,
+          "v2_share_pct_024": 6.0998,
+          "silver_v1_pickups_024": 235374,
+          "v2_minus_v1_recovered_024": 131
+        },
+        {
+          "pickup_hour_024": 22,
+          "raw_sep_pickups_024": 220583,
+          "silver_v2_pickups_024": 219802,
+          "v2_minus_raw_024": -781,
+          "v2_drop_pct_vs_raw_024": 0.3541,
+          "raw_share_pct_024": 5.691,
+          "v2_share_pct_024": 5.6931,
+          "silver_v1_pickups_024": 219659,
+          "v2_minus_v1_recovered_024": 143
+        },
+        {
+          "pickup_hour_024": 23,
+          "raw_sep_pickups_024": 184158,
+          "silver_v2_pickups_024": 183504,
+          "v2_minus_raw_024": -654,
+          "v2_drop_pct_vs_raw_024": 0.3551,
+          "raw_share_pct_024": 4.7512,
+          "v2_share_pct_024": 4.7529,
+          "silver_v1_pickups_024": 183383,
+          "v2_minus_v1_recovered_024": 121
+        }
+      ]
+    },
+    "zone_024": {
+      "total_zones_raw_sep_024": 261,
+      "total_zones_silver_v2_024": 261,
+      "top10_rank_changes_024": 0,
+      "top20_rank_changes_024": 0,
+      "top50_rank_changes_024": 0,
+      "pearson_all_zones_raw_vs_v2_024": 0.99999604,
+      "spearman_all_zones_raw_vs_v2_024": 0.99998431,
+      "max_abs_share_shift_pp_024": 0.0348,
+      "top20_zones_024": [
+        {
+          "PULocationID": 237,
+          "raw_rank_024": 1,
+          "silver_v2_rank_024": 1,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 172832,
+          "silver_v2_pickups_024": 172229,
+          "v2_drop_pct_vs_raw_024": 0.3489,
+          "share_shift_pp_024": 0.0019,
+          "silver_v1_pickups_024": 172160,
+          "v2_minus_v1_recovered_024": 69
+        },
+        {
+          "PULocationID": 236,
+          "raw_rank_024": 2,
+          "silver_v2_rank_024": 2,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 155118,
+          "silver_v2_pickups_024": 154695,
+          "v2_drop_pct_vs_raw_024": 0.2727,
+          "share_shift_pp_024": 0.0048,
+          "silver_v1_pickups_024": 154604,
+          "v2_minus_v1_recovered_024": 91
+        },
+        {
+          "PULocationID": 132,
+          "raw_rank_024": 3,
+          "silver_v2_rank_024": 3,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 151618,
+          "silver_v2_pickups_024": 149680,
+          "v2_drop_pct_vs_raw_024": 1.2782,
+          "share_shift_pp_024": -0.0348,
+          "silver_v1_pickups_024": 149399,
+          "v2_minus_v1_recovered_024": 281
+        },
+        {
+          "PULocationID": 161,
+          "raw_rank_024": 4,
+          "silver_v2_rank_024": 4,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 145110,
+          "silver_v2_pickups_024": 144560,
+          "v2_drop_pct_vs_raw_024": 0.379,
+          "share_shift_pp_024": 0.0005,
+          "silver_v1_pickups_024": 144478,
+          "v2_minus_v1_recovered_024": 82
+        },
+        {
+          "PULocationID": 186,
+          "raw_rank_024": 5,
+          "silver_v2_rank_024": 5,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 119790,
+          "silver_v2_pickups_024": 119283,
+          "v2_drop_pct_vs_raw_024": 0.4232,
+          "share_shift_pp_024": -0.001,
+          "silver_v1_pickups_024": 119219,
+          "v2_minus_v1_recovered_024": 64
+        },
+        {
+          "PULocationID": 142,
+          "raw_rank_024": 6,
+          "silver_v2_rank_024": 6,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 111323,
+          "silver_v2_pickups_024": 110974,
+          "v2_drop_pct_vs_raw_024": 0.3135,
+          "share_shift_pp_024": 0.0022,
+          "silver_v1_pickups_024": 110921,
+          "v2_minus_v1_recovered_024": 53
+        },
+        {
+          "PULocationID": 162,
+          "raw_rank_024": 7,
+          "silver_v2_rank_024": 7,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 111132,
+          "silver_v2_pickups_024": 110696,
+          "v2_drop_pct_vs_raw_024": 0.3923,
+          "share_shift_pp_024": -0.0,
+          "silver_v1_pickups_024": 110642,
+          "v2_minus_v1_recovered_024": 54
+        },
+        {
+          "PULocationID": 68,
+          "raw_rank_024": 8,
+          "silver_v2_rank_024": 8,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 106250,
+          "silver_v2_pickups_024": 105891,
+          "v2_drop_pct_vs_raw_024": 0.3379,
+          "share_shift_pp_024": 0.0015,
+          "silver_v1_pickups_024": 105804,
+          "v2_minus_v1_recovered_024": 87
+        },
+        {
+          "PULocationID": 79,
+          "raw_rank_024": 9,
+          "silver_v2_rank_024": 9,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 104097,
+          "silver_v2_pickups_024": 103782,
+          "v2_drop_pct_vs_raw_024": 0.3026,
+          "share_shift_pp_024": 0.0024,
+          "silver_v1_pickups_024": 103729,
+          "v2_minus_v1_recovered_024": 53
+        },
+        {
+          "PULocationID": 230,
+          "raw_rank_024": 10,
+          "silver_v2_rank_024": 10,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 104083,
+          "silver_v2_pickups_024": 103465,
+          "v2_drop_pct_vs_raw_024": 0.5938,
+          "share_shift_pp_024": -0.0055,
+          "silver_v1_pickups_024": 103394,
+          "v2_minus_v1_recovered_024": 71
+        },
+        {
+          "PULocationID": 234,
+          "raw_rank_024": 11,
+          "silver_v2_rank_024": 11,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 102497,
+          "silver_v2_pickups_024": 102158,
+          "v2_drop_pct_vs_raw_024": 0.3307,
+          "share_shift_pp_024": 0.0016,
+          "silver_v1_pickups_024": 102097,
+          "v2_minus_v1_recovered_024": 61
+        },
+        {
+          "PULocationID": 138,
+          "raw_rank_024": 12,
+          "silver_v2_rank_024": 12,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 100039,
+          "silver_v2_pickups_024": 99459,
+          "v2_drop_pct_vs_raw_024": 0.5798,
+          "share_shift_pp_024": -0.0049,
+          "silver_v1_pickups_024": 99406,
+          "v2_minus_v1_recovered_024": 53
+        },
+        {
+          "PULocationID": 239,
+          "raw_rank_024": 13,
+          "silver_v2_rank_024": 13,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 99050,
+          "silver_v2_pickups_024": 98805,
+          "v2_drop_pct_vs_raw_024": 0.2473,
+          "share_shift_pp_024": 0.0037,
+          "silver_v1_pickups_024": 98727,
+          "v2_minus_v1_recovered_024": 78
+        },
+        {
+          "PULocationID": 170,
+          "raw_rank_024": 14,
+          "silver_v2_rank_024": 14,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 98810,
+          "silver_v2_pickups_024": 98443,
+          "v2_drop_pct_vs_raw_024": 0.3714,
+          "share_shift_pp_024": 0.0005,
+          "silver_v1_pickups_024": 98367,
+          "v2_minus_v1_recovered_024": 76
+        },
+        {
+          "PULocationID": 163,
+          "raw_rank_024": 15,
+          "silver_v2_rank_024": 15,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 91205,
+          "silver_v2_pickups_024": 90848,
+          "v2_drop_pct_vs_raw_024": 0.3914,
+          "share_shift_pp_024": -0.0,
+          "silver_v1_pickups_024": 90797,
+          "v2_minus_v1_recovered_024": 51
+        },
+        {
+          "PULocationID": 48,
+          "raw_rank_024": 16,
+          "silver_v2_rank_024": 16,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 89628,
+          "silver_v2_pickups_024": 89228,
+          "v2_drop_pct_vs_raw_024": 0.4463,
+          "share_shift_pp_024": -0.0013,
+          "silver_v1_pickups_024": 89151,
+          "v2_minus_v1_recovered_024": 77
+        },
+        {
+          "PULocationID": 141,
+          "raw_rank_024": 17,
+          "silver_v2_rank_024": 17,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 84831,
+          "silver_v2_pickups_024": 84534,
+          "v2_drop_pct_vs_raw_024": 0.3501,
+          "share_shift_pp_024": 0.0009,
+          "silver_v1_pickups_024": 84488,
+          "v2_minus_v1_recovered_024": 46
+        },
+        {
+          "PULocationID": 249,
+          "raw_rank_024": 18,
+          "silver_v2_rank_024": 18,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 83353,
+          "silver_v2_pickups_024": 83112,
+          "v2_drop_pct_vs_raw_024": 0.2891,
+          "share_shift_pp_024": 0.0022,
+          "silver_v1_pickups_024": 83060,
+          "v2_minus_v1_recovered_024": 52
+        },
+        {
+          "PULocationID": 246,
+          "raw_rank_024": 19,
+          "silver_v2_rank_024": 19,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 80470,
+          "silver_v2_pickups_024": 80257,
+          "v2_drop_pct_vs_raw_024": 0.2647,
+          "share_shift_pp_024": 0.0026,
+          "silver_v1_pickups_024": 80195,
+          "v2_minus_v1_recovered_024": 62
+        },
+        {
+          "PULocationID": 164,
+          "raw_rank_024": 20,
+          "silver_v2_rank_024": 20,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 77579,
+          "silver_v2_pickups_024": 77228,
+          "v2_drop_pct_vs_raw_024": 0.4524,
+          "share_shift_pp_024": -0.0012,
+          "silver_v1_pickups_024": 77163,
+          "v2_minus_v1_recovered_024": 65
+        }
+      ],
+      "top10_recovered_zones_v2_vs_v1_024": [
+        {
+          "PULocationID": 132,
+          "raw_rank_024": 3,
+          "silver_v2_rank_024": 3,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 151618,
+          "silver_v2_pickups_024": 149680,
+          "v2_drop_pct_vs_raw_024": 1.2782,
+          "share_shift_pp_024": -0.0348,
+          "silver_v1_pickups_024": 149399,
+          "v2_minus_v1_recovered_024": 281
+        },
+        {
+          "PULocationID": 236,
+          "raw_rank_024": 2,
+          "silver_v2_rank_024": 2,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 155118,
+          "silver_v2_pickups_024": 154695,
+          "v2_drop_pct_vs_raw_024": 0.2727,
+          "share_shift_pp_024": 0.0048,
+          "silver_v1_pickups_024": 154604,
+          "v2_minus_v1_recovered_024": 91
+        },
+        {
+          "PULocationID": 68,
+          "raw_rank_024": 8,
+          "silver_v2_rank_024": 8,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 106250,
+          "silver_v2_pickups_024": 105891,
+          "v2_drop_pct_vs_raw_024": 0.3379,
+          "share_shift_pp_024": 0.0015,
+          "silver_v1_pickups_024": 105804,
+          "v2_minus_v1_recovered_024": 87
+        },
+        {
+          "PULocationID": 161,
+          "raw_rank_024": 4,
+          "silver_v2_rank_024": 4,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 145110,
+          "silver_v2_pickups_024": 144560,
+          "v2_drop_pct_vs_raw_024": 0.379,
+          "share_shift_pp_024": 0.0005,
+          "silver_v1_pickups_024": 144478,
+          "v2_minus_v1_recovered_024": 82
+        },
+        {
+          "PULocationID": 239,
+          "raw_rank_024": 13,
+          "silver_v2_rank_024": 13,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 99050,
+          "silver_v2_pickups_024": 98805,
+          "v2_drop_pct_vs_raw_024": 0.2473,
+          "share_shift_pp_024": 0.0037,
+          "silver_v1_pickups_024": 98727,
+          "v2_minus_v1_recovered_024": 78
+        },
+        {
+          "PULocationID": 48,
+          "raw_rank_024": 16,
+          "silver_v2_rank_024": 16,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 89628,
+          "silver_v2_pickups_024": 89228,
+          "v2_drop_pct_vs_raw_024": 0.4463,
+          "share_shift_pp_024": -0.0013,
+          "silver_v1_pickups_024": 89151,
+          "v2_minus_v1_recovered_024": 77
+        },
+        {
+          "PULocationID": 170,
+          "raw_rank_024": 14,
+          "silver_v2_rank_024": 14,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 98810,
+          "silver_v2_pickups_024": 98443,
+          "v2_drop_pct_vs_raw_024": 0.3714,
+          "share_shift_pp_024": 0.0005,
+          "silver_v1_pickups_024": 98367,
+          "v2_minus_v1_recovered_024": 76
+        },
+        {
+          "PULocationID": 230,
+          "raw_rank_024": 10,
+          "silver_v2_rank_024": 10,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 104083,
+          "silver_v2_pickups_024": 103465,
+          "v2_drop_pct_vs_raw_024": 0.5938,
+          "share_shift_pp_024": -0.0055,
+          "silver_v1_pickups_024": 103394,
+          "v2_minus_v1_recovered_024": 71
+        },
+        {
+          "PULocationID": 237,
+          "raw_rank_024": 1,
+          "silver_v2_rank_024": 1,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 172832,
+          "silver_v2_pickups_024": 172229,
+          "v2_drop_pct_vs_raw_024": 0.3489,
+          "share_shift_pp_024": 0.0019,
+          "silver_v1_pickups_024": 172160,
+          "v2_minus_v1_recovered_024": 69
+        },
+        {
+          "PULocationID": 164,
+          "raw_rank_024": 20,
+          "silver_v2_rank_024": 20,
+          "rank_delta_024": 0,
+          "raw_sep_pickups_024": 77579,
+          "silver_v2_pickups_024": 77228,
+          "v2_drop_pct_vs_raw_024": 0.4524,
+          "share_shift_pp_024": -0.0012,
+          "silver_v1_pickups_024": 77163,
+          "v2_minus_v1_recovered_024": 65
+        }
+      ]
+    }
+  }
+}

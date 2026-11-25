@@ -1,0 +1,1144 @@
+{
+  "metadata_024": {
+    "project_024": "UrbanPulse — Intelligent Urban Taxi Analytics",
+    "script_024": "spark/processing/build_gold_layer_024.py",
+    "hdfs_silver_input_024": "hdfs://localhost:9000/urbanpulse_024/processed/yellow_taxi_024",
+    "hdfs_written_root_024": "hdfs://localhost:9000/urbanpulse_024/analytics/_staging_gold_024",
+    "hdfs_live_root_024": "hdfs://localhost:9000/urbanpulse_024/analytics",
+    "hdfs_promotion_completed_024": true,
+    "hdfs_live_readback_verified_024": true,
+    "hdfs_live_sizes_human_024": {
+      "gold_hourly_demand_024": "59.1 K",
+      "gold_zone_demand_024": "41.4 K",
+      "gold_temporal_patterns_024": "16.6 K",
+      "gold_zone_hourly_demand_024": "272.1 K",
+      "gold_demand_features_024": "1.9 M"
+    },
+    "spark_version_024": "4.0.4",
+    "spark_master_024": "local[*]",
+    "silver_v2_source_rows_024": 3860852,
+    "executed_at_utc_024": "2026-11-25T01:12:14.915042+00:00",
+    "elapsed_seconds_024": 64.35
+  },
+  "population_definitions_024": {
+    "operational_pickup_demand_024": "All 3,860,852 verified Silver v2 rows (Sep 2026 paid trips, including Flex Fare, VendorID 6/7, and flagged telemetry anomalies). Companion column `non_reversed_pickup_count_024` also reported excluding the 13,018 reversal-paired rows.",
+    "net_settled_revenue_and_economics_024": "Excludes `has_negative_reversal_pair_024 = true` (13,018 rows) and uses validated non-outlier columns (`total_amount_valid_usd_024`, `fare_amount_valid_usd_024`, `trip_distance_valid_mi_024`, `trip_duration_valid_min_024`, `avg_speed_mph_024`).",
+    "zone_reference_status_024": "taxi_zone_lookup.csv is not yet present in data/reference/ or HDFS /urbanpulse_024/raw/reference/; original `PULocationID` is preserved without fabricating zone names."
+  },
+  "dataset_verifications_024": {
+    "gold_hourly_demand_024": {
+      "dataset_name_024": "gold_hourly_demand_024",
+      "readback_verified_024": true,
+      "row_count_024": 720,
+      "column_count_024": 21,
+      "naming_convention_024_valid": true,
+      "pickup_sum_reconciled_024": 3860852,
+      "reconciles_with_silver_v2_024": true,
+      "columns_with_nulls_024": {},
+      "schema_024": [
+        {
+          "column_name": "pickup_ts_hour_024",
+          "data_type": "timestamp_ntz",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_date_024",
+          "data_type": "date",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_hour_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "day_of_week_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "day_name_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "is_weekend_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "day_type_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "period_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "time_of_day_bucket_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "non_reversed_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "flex_fare_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "active_zone_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "net_settled_revenue_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_settled_total_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_settled_fare_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_distance_mi_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_duration_min_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_speed_mph_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "is_observed_hour_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "flex_fare_share_pct_024",
+          "data_type": "double",
+          "nullable": true
+        }
+      ],
+      "time_range_024": {
+        "column_024": "pickup_ts_hour_024",
+        "min_024": "2026-09-01 00:00:00",
+        "max_024": "2026-09-30 23:00:00"
+      },
+      "hdfs_staged_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/_staging_gold_024/gold_hourly_demand_024",
+      "hdfs_live_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/gold_hourly_demand_024"
+    },
+    "gold_zone_demand_024": {
+      "dataset_name_024": "gold_zone_demand_024",
+      "readback_verified_024": true,
+      "row_count_024": 261,
+      "column_count_024": 27,
+      "naming_convention_024_valid": true,
+      "pickup_sum_reconciled_024": 3860852,
+      "reconciles_with_silver_v2_024": true,
+      "columns_with_nulls_024": {},
+      "schema_024": [
+        {
+          "column_name": "PULocationID",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "is_known_pickup_zone_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "period_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "non_reversed_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "active_hours_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "weekday_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "weekend_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "flex_fare_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "net_settled_revenue_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_settled_total_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_settled_fare_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_distance_mi_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_duration_min_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_speed_mph_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "peak_hour_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "peak_hour_pickups_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "quietest_hour_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "quietest_hour_pickups_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "zone_demand_rank_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_share_pct_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_daily_pickups_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_hourly_pickups_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "active_hours_coverage_pct_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "weekend_share_pct_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "flex_fare_share_pct_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "demand_tier_024",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "hdfs_staged_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/_staging_gold_024/gold_zone_demand_024",
+      "hdfs_live_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/gold_zone_demand_024"
+    },
+    "gold_temporal_patterns_024": {
+      "dataset_name_024": "gold_temporal_patterns_024",
+      "readback_verified_024": true,
+      "row_count_024": 168,
+      "column_count_024": 17,
+      "naming_convention_024_valid": true,
+      "pickup_sum_reconciled_024": 3860852,
+      "reconciles_with_silver_v2_024": true,
+      "columns_with_nulls_024": {},
+      "schema_024": [
+        {
+          "column_name": "day_of_week_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_hour_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "day_name_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "is_weekend_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "day_type_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "time_of_day_bucket_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "num_calendar_days_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "total_pickups_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "non_reversed_total_pickups_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "flex_fare_pickups_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "net_settled_revenue_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_settled_total_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_distance_mi_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_duration_min_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_speed_mph_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_pickups_per_day_slot_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "share_of_total_pickups_pct_024",
+          "data_type": "double",
+          "nullable": true
+        }
+      ],
+      "hdfs_staged_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/_staging_gold_024/gold_temporal_patterns_024",
+      "hdfs_live_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/gold_temporal_patterns_024"
+    },
+    "gold_zone_hourly_demand_024": {
+      "dataset_name_024": "gold_zone_hourly_demand_024",
+      "readback_verified_024": true,
+      "row_count_024": 6264,
+      "column_count_024": 18,
+      "naming_convention_024_valid": true,
+      "pickup_sum_reconciled_024": 3860852,
+      "reconciles_with_silver_v2_024": true,
+      "columns_with_nulls_024": {
+        "avg_settled_total_usd_024": 458,
+        "avg_valid_distance_mi_024": 501,
+        "avg_valid_duration_min_024": 459
+      },
+      "schema_024": [
+        {
+          "column_name": "PULocationID",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_hour_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "is_known_pickup_zone_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "non_reversed_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "weekday_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "weekend_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "active_days_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "net_settled_revenue_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_settled_total_usd_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_distance_mi_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_valid_duration_min_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "is_observed_zone_hour_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_daily_pickups_at_hour_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_weekday_pickups_at_hour_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "avg_weekend_pickups_at_hour_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "within_zone_hour_share_pct_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "hour_rank_within_zone_024",
+          "data_type": "int",
+          "nullable": true
+        }
+      ],
+      "hdfs_staged_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/_staging_gold_024/gold_zone_hourly_demand_024",
+      "hdfs_live_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/gold_zone_hourly_demand_024"
+    },
+    "gold_demand_features_024": {
+      "dataset_name_024": "gold_demand_features_024",
+      "readback_verified_024": true,
+      "row_count_024": 187920,
+      "column_count_024": 26,
+      "naming_convention_024_valid": true,
+      "pickup_sum_reconciled_024": 3860852,
+      "reconciles_with_silver_v2_024": true,
+      "columns_with_nulls_024": {
+        "lag_1h_pickup_count_024": 261,
+        "lag_24h_pickup_count_024": 6264,
+        "lag_168h_pickup_count_024": 43848,
+        "rolling_avg_24h_pickup_count_024": 6264,
+        "rolling_avg_7d_pickup_count_024": 43848,
+        "rolling_std_7d_pickup_count_024": 43848
+      },
+      "schema_024": [
+        {
+          "column_name": "PULocationID",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_ts_hour_024",
+          "data_type": "timestamp_ntz",
+          "nullable": true
+        },
+        {
+          "column_name": "is_known_pickup_zone_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_date_024",
+          "data_type": "date",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_hour_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "day_of_week_024",
+          "data_type": "int",
+          "nullable": true
+        },
+        {
+          "column_name": "day_name_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "is_weekend_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "day_type_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "period_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "time_of_day_bucket_024",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "column_name": "pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "non_reversed_pickup_count_024",
+          "data_type": "bigint",
+          "nullable": true
+        },
+        {
+          "column_name": "is_observed_in_silver_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "lag_1h_pickup_count_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "lag_24h_pickup_count_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "lag_168h_pickup_count_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "rolling_avg_24h_pickup_count_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "rolling_avg_7d_pickup_count_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "rolling_std_7d_pickup_count_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "is_rush_hour_024",
+          "data_type": "boolean",
+          "nullable": true
+        },
+        {
+          "column_name": "hour_sin_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "hour_cos_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "dow_sin_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "dow_cos_024",
+          "data_type": "double",
+          "nullable": true
+        },
+        {
+          "column_name": "is_ml_ready_full_history_024",
+          "data_type": "boolean",
+          "nullable": true
+        }
+      ],
+      "time_range_024": {
+        "column_024": "pickup_ts_hour_024",
+        "min_024": "2026-09-01 00:00:00",
+        "max_024": "2026-09-30 23:00:00"
+      },
+      "hdfs_staged_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/_staging_gold_024/gold_demand_features_024",
+      "hdfs_live_path_024": "hdfs://localhost:9000/urbanpulse_024/analytics/gold_demand_features_024"
+    }
+  },
+  "ml_feature_panel_audit_024": {
+    "total_panel_rows_024": 187920,
+    "observed_zone_hours_024": 101884,
+    "observed_pct_024": 54.2167,
+    "missing_zero_filled_zone_hours_024": 86036,
+    "missing_zero_filled_pct_024": 45.7833,
+    "ml_ready_rows_full_7d_history_024": 144072,
+    "ml_ready_time_range_024": [
+      "2026-09-08 00:00:00",
+      "2026-09-30 23:00:00"
+    ],
+    "zero_leakage_assertions_passed_024": true,
+    "spot_check_zone_237_2026_09_15_18h_024": {
+      "actual_pickup_count_t_024": 622,
+      "lag_1h_024": 552.0,
+      "lag_24h_024": 511.0,
+      "lag_168h_024": 481.0,
+      "stored_rolling_avg_7d_024": 260.1012,
+      "manual_past_168h_mean_excl_t_024": 260.1012,
+      "matches_exact_past_only_024": true
+    },
+    "sparsity_by_demand_tier_024": [
+      {
+        "demand_tier_024": "High (11-50)",
+        "zone_count_024": 40,
+        "total_zone_hours_024": 28800,
+        "observed_zone_hours_024": 28596,
+        "zero_filled_pct_024": 0.71
+      },
+      {
+        "demand_tier_024": "Low (>150)",
+        "zone_count_024": 111,
+        "total_zone_hours_024": 79920,
+        "observed_zone_hours_024": 13840,
+        "zero_filled_pct_024": 82.68
+      },
+      {
+        "demand_tier_024": "Medium (51-150)",
+        "zone_count_024": 100,
+        "total_zone_hours_024": 72000,
+        "observed_zone_hours_024": 52256,
+        "zero_filled_pct_024": 27.42
+      },
+      {
+        "demand_tier_024": "Top 10",
+        "zone_count_024": 10,
+        "total_zone_hours_024": 7200,
+        "observed_zone_hours_024": 7192,
+        "zero_filled_pct_024": 0.11
+      }
+    ]
+  },
+  "initial_insights_024": {
+    "overall_kpis_024": {
+      "total_operational_pickups_024": 3860852,
+      "total_non_reversed_pickups_024": 3847834,
+      "reversal_paired_pickups_excluded_from_revenue_024": 13018,
+      "total_flex_fare_pickups_024": 1190293,
+      "flex_fare_share_pct_024": 30.8298,
+      "total_net_settled_revenue_usd_024": 124583114.07,
+      "avg_daily_pickups_024": 128695.07,
+      "avg_hourly_pickups_024": 5362.29,
+      "missing_city_hours_out_of_720_024": 0
+    },
+    "peak_and_quiet_hours_024": {
+      "peak_hour_024": {
+        "pickup_hour_024": 18,
+        "total_pickups_024": 267143,
+        "avg_pickups_per_day_024": 8904.77,
+        "net_settled_revenue_usd_024": 8392771.29
+      },
+      "quietest_hour_024": {
+        "pickup_hour_024": 4,
+        "total_pickups_024": 32138,
+        "avg_pickups_per_day_024": 1071.27,
+        "net_settled_revenue_usd_024": 1182470.84
+      },
+      "top5_hours_024": [
+        {
+          "pickup_hour_024": 18,
+          "total_pickups_024": 267143,
+          "avg_pickups_per_day_024": 8904.77,
+          "net_settled_revenue_usd_024": 8392771.29
+        },
+        {
+          "pickup_hour_024": 17,
+          "total_pickups_024": 254542,
+          "avg_pickups_per_day_024": 8484.73,
+          "net_settled_revenue_usd_024": 8597706.59
+        },
+        {
+          "pickup_hour_024": 19,
+          "total_pickups_024": 251316,
+          "avg_pickups_per_day_024": 8377.2,
+          "net_settled_revenue_usd_024": 7875563.86
+        },
+        {
+          "pickup_hour_024": 20,
+          "total_pickups_024": 237885,
+          "avg_pickups_per_day_024": 7929.5,
+          "net_settled_revenue_usd_024": 7472682.15
+        },
+        {
+          "pickup_hour_024": 21,
+          "total_pickups_024": 235505,
+          "avg_pickups_per_day_024": 7850.17,
+          "net_settled_revenue_usd_024": 7576638.84
+        }
+      ],
+      "bottom5_hours_024": [
+        {
+          "pickup_hour_024": 4,
+          "total_pickups_024": 32138,
+          "avg_pickups_per_day_024": 1071.27,
+          "net_settled_revenue_usd_024": 1182470.84
+        },
+        {
+          "pickup_hour_024": 5,
+          "total_pickups_024": 36055,
+          "avg_pickups_per_day_024": 1201.83,
+          "net_settled_revenue_usd_024": 1355603.27
+        },
+        {
+          "pickup_hour_024": 3,
+          "total_pickups_024": 38964,
+          "avg_pickups_per_day_024": 1298.8,
+          "net_settled_revenue_usd_024": 1251281.66
+        },
+        {
+          "pickup_hour_024": 2,
+          "total_pickups_024": 55890,
+          "avg_pickups_per_day_024": 1863.0,
+          "net_settled_revenue_usd_024": 1717227.5
+        },
+        {
+          "pickup_hour_024": 6,
+          "total_pickups_024": 68035,
+          "avg_pickups_per_day_024": 2267.83,
+          "net_settled_revenue_usd_024": 2242454.23
+        }
+      ],
+      "busiest_calendar_hour_slot_024": {
+        "pickup_ts_hour_024": "2026-09-17 19:00:00",
+        "day_name_024": "Kamis",
+        "pickup_count_024": 11718,
+        "net_settled_revenue_usd_024": 369118.08
+      },
+      "quietest_calendar_hour_slot_024": {
+        "pickup_ts_hour_024": "2026-09-15 03:00:00",
+        "day_name_024": "Selasa",
+        "pickup_count_024": 298,
+        "net_settled_revenue_usd_024": 10640.03
+      }
+    },
+    "zone_insights_024": {
+      "top10_combined_share_pct_024": 33.0305,
+      "top20_combined_share_pct_024": 56.447,
+      "top10_zones_024": [
+        {
+          "rank_024": 1,
+          "PULocationID": 237,
+          "pickup_count_024": 172229,
+          "pickup_share_pct_024": 4.4609,
+          "peak_hour_024": 18,
+          "weekend_share_pct_024": 19.639,
+          "net_settled_revenue_usd_024": 3993745.03,
+          "avg_settled_total_usd_024": 23.2577
+        },
+        {
+          "rank_024": 2,
+          "PULocationID": 236,
+          "pickup_count_024": 154695,
+          "pickup_share_pct_024": 4.0068,
+          "peak_hour_024": 15,
+          "weekend_share_pct_024": 19.6716,
+          "net_settled_revenue_usd_024": 3700641.99,
+          "avg_settled_total_usd_024": 23.9784
+        },
+        {
+          "rank_024": 3,
+          "PULocationID": 132,
+          "pickup_count_024": 149680,
+          "pickup_share_pct_024": 3.8769,
+          "peak_hour_024": 16,
+          "weekend_share_pct_024": 26.852,
+          "net_settled_revenue_usd_024": 11959824.66,
+          "avg_settled_total_usd_024": 80.8501
+        },
+        {
+          "rank_024": 4,
+          "PULocationID": 161,
+          "pickup_count_024": 144560,
+          "pickup_share_pct_024": 3.7443,
+          "peak_hour_024": 18,
+          "weekend_share_pct_024": 18.6704,
+          "net_settled_revenue_usd_024": 4206375.15,
+          "avg_settled_total_usd_024": 29.1913
+        },
+        {
+          "rank_024": 5,
+          "PULocationID": 186,
+          "pickup_count_024": 119283,
+          "pickup_share_pct_024": 3.0896,
+          "peak_hour_024": 19,
+          "weekend_share_pct_024": 24.9122,
+          "net_settled_revenue_usd_024": 3386540.72,
+          "avg_settled_total_usd_024": 28.4952
+        },
+        {
+          "rank_024": 6,
+          "PULocationID": 142,
+          "pickup_count_024": 110974,
+          "pickup_share_pct_024": 2.8743,
+          "peak_hour_024": 21,
+          "weekend_share_pct_024": 24.6688,
+          "net_settled_revenue_usd_024": 2814103.73,
+          "avg_settled_total_usd_024": 25.4265
+        },
+        {
+          "rank_024": 7,
+          "PULocationID": 162,
+          "pickup_count_024": 110696,
+          "pickup_share_pct_024": 2.8671,
+          "peak_hour_024": 18,
+          "weekend_share_pct_024": 19.3142,
+          "net_settled_revenue_usd_024": 3057550.16,
+          "avg_settled_total_usd_024": 27.7143
+        },
+        {
+          "rank_024": 8,
+          "PULocationID": 68,
+          "pickup_count_024": 105891,
+          "pickup_share_pct_024": 2.7427,
+          "peak_hour_024": 19,
+          "weekend_share_pct_024": 25.6802,
+          "net_settled_revenue_usd_024": 3225321.09,
+          "avg_settled_total_usd_024": 30.5506
+        },
+        {
+          "rank_024": 9,
+          "PULocationID": 79,
+          "pickup_count_024": 103782,
+          "pickup_share_pct_024": 2.6881,
+          "peak_hour_024": 23,
+          "weekend_share_pct_024": 42.7993,
+          "net_settled_revenue_usd_024": 2910060.23,
+          "avg_settled_total_usd_024": 28.1149
+        },
+        {
+          "rank_024": 10,
+          "PULocationID": 230,
+          "pickup_count_024": 103465,
+          "pickup_share_pct_024": 2.6798,
+          "peak_hour_024": 21,
+          "weekend_share_pct_024": 25.513,
+          "net_settled_revenue_usd_024": 3339536.27,
+          "avg_settled_total_usd_024": 32.4454
+        }
+      ],
+      "bottom10_zones_024": [
+        {
+          "rank_024": 261,
+          "PULocationID": 199,
+          "pickup_count_024": 1,
+          "active_hours_count_024": 1,
+          "net_settled_revenue_usd_024": 60.54
+        },
+        {
+          "rank_024": 260,
+          "PULocationID": 204,
+          "pickup_count_024": 2,
+          "active_hours_count_024": 2,
+          "net_settled_revenue_usd_024": 172.98
+        },
+        {
+          "rank_024": 259,
+          "PULocationID": 105,
+          "pickup_count_024": 2,
+          "active_hours_count_024": 2,
+          "net_settled_revenue_usd_024": 32.37
+        },
+        {
+          "rank_024": 258,
+          "PULocationID": 84,
+          "pickup_count_024": 4,
+          "active_hours_count_024": 4,
+          "net_settled_revenue_usd_024": 229.85
+        },
+        {
+          "rank_024": 257,
+          "PULocationID": 44,
+          "pickup_count_024": 5,
+          "active_hours_count_024": 5,
+          "net_settled_revenue_usd_024": 337.96
+        },
+        {
+          "rank_024": 256,
+          "PULocationID": 5,
+          "pickup_count_024": 6,
+          "active_hours_count_024": 6,
+          "net_settled_revenue_usd_024": 758.49
+        },
+        {
+          "rank_024": 255,
+          "PULocationID": 187,
+          "pickup_count_024": 7,
+          "active_hours_count_024": 7,
+          "net_settled_revenue_usd_024": 607.21
+        },
+        {
+          "rank_024": 254,
+          "PULocationID": 2,
+          "pickup_count_024": 8,
+          "active_hours_count_024": 8,
+          "net_settled_revenue_usd_024": 503.02
+        },
+        {
+          "rank_024": 253,
+          "PULocationID": 111,
+          "pickup_count_024": 9,
+          "active_hours_count_024": 8,
+          "net_settled_revenue_usd_024": 382.49
+        },
+        {
+          "rank_024": 252,
+          "PULocationID": 30,
+          "pickup_count_024": 10,
+          "active_hours_count_024": 9,
+          "net_settled_revenue_usd_024": 540.9
+        }
+      ]
+    },
+    "weekday_vs_weekend_024": {
+      "summary_024": [
+        {
+          "day_type_024": "Weekday",
+          "calendar_days_024": 22,
+          "total_pickups_024": 2823166,
+          "avg_pickups_per_day_024": 128325.73,
+          "avg_pickups_per_hour_024": 5346.91,
+          "net_settled_revenue_usd_024": 92529082.38
+        },
+        {
+          "day_type_024": "Weekend",
+          "calendar_days_024": 8,
+          "total_pickups_024": 1037686,
+          "avg_pickups_per_day_024": 129710.75,
+          "avg_pickups_per_hour_024": 5404.61,
+          "net_settled_revenue_usd_024": 32054031.69
+        }
+      ],
+      "weekday_peak_hour_024": 18,
+      "weekend_peak_hour_024": 18,
+      "day_of_week_breakdown_024": [
+        {
+          "day_of_week_024": 0,
+          "day_name_024": "Senin",
+          "num_calendar_days_024": 4,
+          "total_pickups_024": 437361,
+          "avg_pickups_per_day_024": 109340.25
+        },
+        {
+          "day_of_week_024": 1,
+          "day_name_024": "Selasa",
+          "num_calendar_days_024": 5,
+          "total_pickups_024": 611349,
+          "avg_pickups_per_day_024": 122269.8
+        },
+        {
+          "day_of_week_024": 2,
+          "day_name_024": "Rabu",
+          "num_calendar_days_024": 5,
+          "total_pickups_024": 655235,
+          "avg_pickups_per_day_024": 131047.0
+        },
+        {
+          "day_of_week_024": 3,
+          "day_name_024": "Kamis",
+          "num_calendar_days_024": 4,
+          "total_pickups_024": 565032,
+          "avg_pickups_per_day_024": 141258.0
+        },
+        {
+          "day_of_week_024": 4,
+          "day_name_024": "Jumat",
+          "num_calendar_days_024": 4,
+          "total_pickups_024": 554189,
+          "avg_pickups_per_day_024": 138547.25
+        },
+        {
+          "day_of_week_024": 5,
+          "day_name_024": "Sabtu",
+          "num_calendar_days_024": 4,
+          "total_pickups_024": 551230,
+          "avg_pickups_per_day_024": 137807.5
+        },
+        {
+          "day_of_week_024": 6,
+          "day_name_024": "Minggu",
+          "num_calendar_days_024": 4,
+          "total_pickups_024": 486456,
+          "avg_pickups_per_day_024": 121614.0
+        }
+      ]
+    },
+    "top10_zone_hour_hotspots_024": [
+      {
+        "PULocationID": 237,
+        "pickup_hour_024": 18,
+        "pickup_count_024": 13450,
+        "avg_daily_pickups_at_hour_024": 448.3333,
+        "within_zone_hour_share_pct_024": 7.8094
+      },
+      {
+        "PULocationID": 237,
+        "pickup_hour_024": 17,
+        "pickup_count_024": 13265,
+        "avg_daily_pickups_at_hour_024": 442.1667,
+        "within_zone_hour_share_pct_024": 7.702
+      },
+      {
+        "PULocationID": 237,
+        "pickup_hour_024": 15,
+        "pickup_count_024": 12722,
+        "avg_daily_pickups_at_hour_024": 424.0667,
+        "within_zone_hour_share_pct_024": 7.3867
+      },
+      {
+        "PULocationID": 237,
+        "pickup_hour_024": 14,
+        "pickup_count_024": 12672,
+        "avg_daily_pickups_at_hour_024": 422.4,
+        "within_zone_hour_share_pct_024": 7.3576
+      },
+      {
+        "PULocationID": 236,
+        "pickup_hour_024": 15,
+        "pickup_count_024": 12391,
+        "avg_daily_pickups_at_hour_024": 413.0333,
+        "within_zone_hour_share_pct_024": 8.01
+      },
+      {
+        "PULocationID": 237,
+        "pickup_hour_024": 16,
+        "pickup_count_024": 12337,
+        "avg_daily_pickups_at_hour_024": 411.2333,
+        "within_zone_hour_share_pct_024": 7.1631
+      },
+      {
+        "PULocationID": 161,
+        "pickup_hour_024": 18,
+        "pickup_count_024": 12202,
+        "avg_daily_pickups_at_hour_024": 406.7333,
+        "within_zone_hour_share_pct_024": 8.4408
+      },
+      {
+        "PULocationID": 236,
+        "pickup_hour_024": 17,
+        "pickup_count_024": 12015,
+        "avg_daily_pickups_at_hour_024": 400.5,
+        "within_zone_hour_share_pct_024": 7.7669
+      },
+      {
+        "PULocationID": 161,
+        "pickup_hour_024": 20,
+        "pickup_count_024": 11821,
+        "avg_daily_pickups_at_hour_024": 394.0333,
+        "within_zone_hour_share_pct_024": 8.1772
+      },
+      {
+        "PULocationID": 161,
+        "pickup_hour_024": 19,
+        "pickup_count_024": 11612,
+        "avg_daily_pickups_at_hour_024": 387.0667,
+        "within_zone_hour_share_pct_024": 8.0327
+      }
+    ]
+  }
+}

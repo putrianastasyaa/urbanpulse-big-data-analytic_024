@@ -1,0 +1,372 @@
+{
+  "file_metadata_024": {
+    "local_path_024": "data/reference/taxi_zone_lookup_024.csv",
+    "source_url_024": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+    "file_size_bytes_024": 12331,
+    "sha256_024": "1A99E105092230F8620F301EDCCA7F80D3080642FF404D28ED957D3FA222C8ED",
+    "readable_024": true
+  },
+  "schema_and_integrity_024": {
+    "row_count_024": 265,
+    "column_count_024": 4,
+    "columns_original_024": [
+      "LocationID",
+      "Borough",
+      "Zone",
+      "service_zone"
+    ],
+    "min_location_id_024": 1,
+    "max_location_id_024": 265,
+    "duplicate_location_ids_024": [],
+    "duplicate_zone_names_024": {
+      "Corona": 2,
+      "Governor's Island/Ellis Island/Liberty Island": 3
+    },
+    "blank_and_na_summary_024": {
+      "LocationID": {
+        "blank_or_null_024": 0,
+        "na_or_unknown_literal_024": 0
+      },
+      "Borough": {
+        "blank_or_null_024": 0,
+        "na_or_unknown_literal_024": 2
+      },
+      "Zone": {
+        "blank_or_null_024": 0,
+        "na_or_unknown_literal_024": 1
+      },
+      "service_zone": {
+        "blank_or_null_024": 0,
+        "na_or_unknown_literal_024": 2
+      }
+    },
+    "borough_distribution_024": {
+      "Queens": 69,
+      "Manhattan": 69,
+      "Brooklyn": 61,
+      "Bronx": 43,
+      "Staten Island": 20,
+      "EWR": 1,
+      "Unknown": 1,
+      "N/A": 1
+    },
+    "service_zone_distribution_024": {
+      "Boro Zone": 205,
+      "Yellow Zone": 55,
+      "Airports": 2,
+      "N/A": 2,
+      "EWR": 1
+    },
+    "special_or_na_rows_024": [
+      {
+        "LocationID": "264",
+        "Borough": "Unknown",
+        "Zone": "N/A",
+        "service_zone": "N/A"
+      },
+      {
+        "LocationID": "265",
+        "Borough": "N/A",
+        "Zone": "Outside of NYC",
+        "service_zone": "N/A"
+      }
+    ]
+  },
+  "gold_reconciliation_024": {
+    "gold_active_zones_024": 261,
+    "lookup_total_zones_024": 265,
+    "matched_gold_zones_024": 261,
+    "match_rate_pct_024": 100.0,
+    "gold_ids_missing_in_lookup_024": [],
+    "lookup_ids_inactive_in_gold_sep2026_024": [
+      {
+        "LocationID": "99",
+        "Borough": "Staten Island",
+        "Zone": "Freshkills Park",
+        "service_zone": "Boro Zone"
+      },
+      {
+        "LocationID": "103",
+        "Borough": "Manhattan",
+        "Zone": "Governor's Island/Ellis Island/Liberty Island",
+        "service_zone": "Yellow Zone"
+      },
+      {
+        "LocationID": "104",
+        "Borough": "Manhattan",
+        "Zone": "Governor's Island/Ellis Island/Liberty Island",
+        "service_zone": "Yellow Zone"
+      },
+      {
+        "LocationID": "110",
+        "Borough": "Staten Island",
+        "Zone": "Great Kills Park",
+        "service_zone": "Boro Zone"
+      }
+    ],
+    "borough_demand_preview_024": [
+      {
+        "Borough": "Manhattan",
+        "pickup_count_024": 3370898,
+        "pickup_share_pct_024": 87.3097,
+        "net_settled_revenue_usd_024": 94554551.89
+      },
+      {
+        "Borough": "Queens",
+        "pickup_count_024": 342961,
+        "pickup_share_pct_024": 8.883,
+        "net_settled_revenue_usd_024": 23704666.23
+      },
+      {
+        "Borough": "Brooklyn",
+        "pickup_count_024": 121009,
+        "pickup_share_pct_024": 3.1343,
+        "net_settled_revenue_usd_024": 5068138.1
+      },
+      {
+        "Borough": "Bronx",
+        "pickup_count_024": 19927,
+        "pickup_share_pct_024": 0.5161,
+        "net_settled_revenue_usd_024": 854727.82
+      },
+      {
+        "Borough": "Unknown",
+        "pickup_count_024": 3437,
+        "pickup_share_pct_024": 0.089,
+        "net_settled_revenue_usd_024": 128365.81
+      },
+      {
+        "Borough": "N/A",
+        "pickup_count_024": 1772,
+        "pickup_share_pct_024": 0.0459,
+        "net_settled_revenue_usd_024": 196798.3
+      },
+      {
+        "Borough": "EWR",
+        "pickup_count_024": 427,
+        "pickup_share_pct_024": 0.0111,
+        "net_settled_revenue_usd_024": 50399.53
+      },
+      {
+        "Borough": "Staten Island",
+        "pickup_count_024": 421,
+        "pickup_share_pct_024": 0.0109,
+        "net_settled_revenue_usd_024": 25466.39
+      }
+    ],
+    "top10_gold_zones_enriched_024": [
+      {
+        "rank_024": 1,
+        "PULocationID": 237,
+        "Zone": "Upper East Side South",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 172229,
+        "pickup_share_pct_024": 4.4609,
+        "net_settled_revenue_usd_024": 3993745.03,
+        "avg_settled_total_usd_024": 23.2577,
+        "peak_hour_024": 18,
+        "weekend_share_pct_024": 19.639
+      },
+      {
+        "rank_024": 2,
+        "PULocationID": 236,
+        "Zone": "Upper East Side North",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 154695,
+        "pickup_share_pct_024": 4.0068,
+        "net_settled_revenue_usd_024": 3700641.99,
+        "avg_settled_total_usd_024": 23.9784,
+        "peak_hour_024": 15,
+        "weekend_share_pct_024": 19.6716
+      },
+      {
+        "rank_024": 3,
+        "PULocationID": 132,
+        "Zone": "JFK Airport",
+        "Borough": "Queens",
+        "service_zone": "Airports",
+        "pickup_count_024": 149680,
+        "pickup_share_pct_024": 3.8769,
+        "net_settled_revenue_usd_024": 11959824.66,
+        "avg_settled_total_usd_024": 80.8501,
+        "peak_hour_024": 16,
+        "weekend_share_pct_024": 26.852
+      },
+      {
+        "rank_024": 4,
+        "PULocationID": 161,
+        "Zone": "Midtown Center",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 144560,
+        "pickup_share_pct_024": 3.7443,
+        "net_settled_revenue_usd_024": 4206375.15,
+        "avg_settled_total_usd_024": 29.1913,
+        "peak_hour_024": 18,
+        "weekend_share_pct_024": 18.6704
+      },
+      {
+        "rank_024": 5,
+        "PULocationID": 186,
+        "Zone": "Penn Station/Madison Sq West",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 119283,
+        "pickup_share_pct_024": 3.0896,
+        "net_settled_revenue_usd_024": 3386540.72,
+        "avg_settled_total_usd_024": 28.4952,
+        "peak_hour_024": 19,
+        "weekend_share_pct_024": 24.9122
+      },
+      {
+        "rank_024": 6,
+        "PULocationID": 142,
+        "Zone": "Lincoln Square East",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 110974,
+        "pickup_share_pct_024": 2.8743,
+        "net_settled_revenue_usd_024": 2814103.73,
+        "avg_settled_total_usd_024": 25.4265,
+        "peak_hour_024": 21,
+        "weekend_share_pct_024": 24.6688
+      },
+      {
+        "rank_024": 7,
+        "PULocationID": 162,
+        "Zone": "Midtown East",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 110696,
+        "pickup_share_pct_024": 2.8671,
+        "net_settled_revenue_usd_024": 3057550.16,
+        "avg_settled_total_usd_024": 27.7143,
+        "peak_hour_024": 18,
+        "weekend_share_pct_024": 19.3142
+      },
+      {
+        "rank_024": 8,
+        "PULocationID": 68,
+        "Zone": "East Chelsea",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 105891,
+        "pickup_share_pct_024": 2.7427,
+        "net_settled_revenue_usd_024": 3225321.09,
+        "avg_settled_total_usd_024": 30.5506,
+        "peak_hour_024": 19,
+        "weekend_share_pct_024": 25.6802
+      },
+      {
+        "rank_024": 9,
+        "PULocationID": 79,
+        "Zone": "East Village",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 103782,
+        "pickup_share_pct_024": 2.6881,
+        "net_settled_revenue_usd_024": 2910060.23,
+        "avg_settled_total_usd_024": 28.1149,
+        "peak_hour_024": 23,
+        "weekend_share_pct_024": 42.7993
+      },
+      {
+        "rank_024": 10,
+        "PULocationID": 230,
+        "Zone": "Times Sq/Theatre District",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 103465,
+        "pickup_share_pct_024": 2.6798,
+        "net_settled_revenue_usd_024": 3339536.27,
+        "avg_settled_total_usd_024": 32.4454,
+        "peak_hour_024": 21,
+        "weekend_share_pct_024": 25.513
+      }
+    ],
+    "bottom10_gold_zones_enriched_024": [
+      {
+        "rank_024": 252,
+        "PULocationID": 30,
+        "Zone": "Broad Channel",
+        "Borough": "Queens",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 10
+      },
+      {
+        "rank_024": 253,
+        "PULocationID": 111,
+        "Zone": "Green-Wood Cemetery",
+        "Borough": "Brooklyn",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 9
+      },
+      {
+        "rank_024": 254,
+        "PULocationID": 2,
+        "Zone": "Jamaica Bay",
+        "Borough": "Queens",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 8
+      },
+      {
+        "rank_024": 255,
+        "PULocationID": 187,
+        "Zone": "Port Richmond",
+        "Borough": "Staten Island",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 7
+      },
+      {
+        "rank_024": 256,
+        "PULocationID": 5,
+        "Zone": "Arden Heights",
+        "Borough": "Staten Island",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 6
+      },
+      {
+        "rank_024": 257,
+        "PULocationID": 44,
+        "Zone": "Charleston/Tottenville",
+        "Borough": "Staten Island",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 5
+      },
+      {
+        "rank_024": 258,
+        "PULocationID": 84,
+        "Zone": "Eltingville/Annadale/Prince's Bay",
+        "Borough": "Staten Island",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 4
+      },
+      {
+        "rank_024": 259,
+        "PULocationID": 105,
+        "Zone": "Governor's Island/Ellis Island/Liberty Island",
+        "Borough": "Manhattan",
+        "service_zone": "Yellow Zone",
+        "pickup_count_024": 2
+      },
+      {
+        "rank_024": 260,
+        "PULocationID": 204,
+        "Zone": "Rossville/Woodrow",
+        "Borough": "Staten Island",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 2
+      },
+      {
+        "rank_024": 261,
+        "PULocationID": 199,
+        "Zone": "Rikers Island",
+        "Borough": "Bronx",
+        "service_zone": "Boro Zone",
+        "pickup_count_024": 1
+      }
+    ]
+  }
+}
